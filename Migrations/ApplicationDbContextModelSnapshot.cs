@@ -15,15 +15,105 @@ namespace dytsenayasar.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:PostgresExtension:uuid-ossp", ",,")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserClient", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<string>("ClientId")
+                        .HasColumnName("clientid")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ClientIdHash")
+                        .HasColumnName("clientid_hash")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime>("CreateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("create_time")
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnName("user_id")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ClientIdHash")
+                        .HasAnnotation("Npgsql:IndexMethod", "hash");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("user_client");
+                });
+
+            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserRequest", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("create_time")
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<string>("RequestType")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("request_type")
+                        .HasColumnType("varchar(16)")
+                        .HasDefaultValue("PasswordReset");
+
+                    b.Property<string>("Token")
+                        .HasColumnName("token")
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnName("user_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ValidityDate")
+                        .HasColumnName("validity_date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("RequestType")
+                        .HasAnnotation("Npgsql:IndexMethod", "hash");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("user_request");
+                });
+
             modelBuilder.Entity("dytsenayasar.DataAccess.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("BirthDay")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -31,27 +121,45 @@ namespace dytsenayasar.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("bytea");
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
 
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("bytea");
+                    b.Property<string>("PersonalId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("UserType")
+                    b.Property<int>("UserType")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserClient", b =>
+                {
+                    b.HasOne("dytsenayasar.DataAccess.Entities.User", "User")
+                        .WithOne("Client")
+                        .HasForeignKey("dyt_ecommerce.DataAccess.Entities.UserClient", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserRequest", b =>
+                {
+                    b.HasOne("dytsenayasar.DataAccess.Entities.User", "User")
+                        .WithMany("Requests")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

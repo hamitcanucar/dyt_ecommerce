@@ -12,6 +12,10 @@ using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using dytsenayasar.Context;
+using dyt_ecommerce.Services.Abstract;
+using dyt_ecommerce.Services.Concrete;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace dytsenayasar
 {
@@ -46,6 +50,14 @@ namespace dytsenayasar
                 o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
+            services.AddDbContext<ApplicationDbContext>(opt =>
+            {
+                opt.UseNpgsql(Configuration.GetConnectionString("postgres"), pgOpt =>
+                {
+                    pgOpt.EnableRetryOnFailure();
+                });
+            });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -60,6 +72,17 @@ namespace dytsenayasar
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
                     ClockSkew = TimeSpan.Zero
                 };
+            });
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRequestService, UserRequestService>();
+
+            services.AddCors();
+            services.AddControllersWithViews().AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.Converters.Add(new StringEnumConverter());
+                o.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
         }
 
@@ -78,6 +101,18 @@ namespace dytsenayasar
             }
 
             app.UseRouting();
+
+            app.UseRequestLocalization(o =>
+            {
+                var cultues = new[]{
+                    new CultureInfo("tr-TR"),
+                    new CultureInfo("en-US")
+                };
+
+                o.SupportedCultures = cultues;
+                o.SupportedUICultures = cultues;
+                o.DefaultRequestCulture = new RequestCulture("en-US");
+            });
 
             var corsOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
             app.UseCors(o => {

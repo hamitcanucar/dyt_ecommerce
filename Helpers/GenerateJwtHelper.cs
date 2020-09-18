@@ -7,7 +7,7 @@ using dytsenayasar.DataAccess.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace dytsenayasar.Helpers
+namespace dyt_ecommerce.Helpers
 {
     public class GenerateJwtHelper
     {
@@ -23,7 +23,7 @@ namespace dytsenayasar.Helpers
             var userClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));

@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Users\\h.ucar\\dytsenayasar\\dytsenayasar.csproj",
+  "FilePath": "c:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14390,6 +14390,37 @@
     "CSharpLanguageVersion": 800
   },
   "RootNamespace": "dytsenayasar",
-  "Documents": [],
+  "Documents": [
+    {
+      "FilePath": "c:\\Proje\\dyt_ecommerce\\Views\\Emails\\EmailWithConfirmButton.cshtml",
+      "TargetPath": "Views\\Emails\\EmailWithConfirmButton.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Proje\\dyt_ecommerce\\Views\\Emails\\_ViewStart.cshtml",
+      "TargetPath": "Views\\Emails\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Proje\\dyt_ecommerce\\Views\\Shared\\EmailButton.cshtml",
+      "TargetPath": "Views\\Shared\\EmailButton.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Proje\\dyt_ecommerce\\Views\\Pages\\ResetPassword.cshtml",
+      "TargetPath": "Views\\Pages\\ResetPassword.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Proje\\dyt_ecommerce\\Views\\Shared\\EmailLayout.cshtml",
+      "TargetPath": "Views\\Shared\\EmailLayout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Proje\\dyt_ecommerce\\Views\\Pages\\ActivateAccount.cshtml",
+      "TargetPath": "Views\\Pages\\ActivateAccount.cshtml",
+      "FileKind": "mvc"
+    }
+  ],
   "SerializationFormat": "0.2"
 }

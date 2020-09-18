@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\h.ucar\\dytsenayasar\\dytsenayasar.csproj": {}
+    "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj": {}
   },
   "projects": {
-    "C:\\Users\\h.ucar\\dytsenayasar\\dytsenayasar.csproj": {
+    "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\h.ucar\\dytsenayasar\\dytsenayasar.csproj",
+        "projectUniqueName": "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj",
         "projectName": "dytsenayasar",
-        "projectPath": "C:\\Users\\h.ucar\\dytsenayasar\\dytsenayasar.csproj",
+        "projectPath": "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj",
         "packagesPath": "C:\\Users\\h.ucar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\h.ucar\\dytsenayasar\\obj\\",
+        "outputPath": "C:\\Proje\\dyt_ecommerce\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\h.ucar\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -36,6 +36,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.9.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[3.1.8, )"

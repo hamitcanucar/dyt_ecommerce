@@ -1,0 +1,25 @@
+@using dyt_ecommerce.Views.Emails
+@using dyt_ecommerce.Views.Shared
+@model EmailWithConfirmButtonModel
+
+@{
+    ViewData["logo"] = Model.LogoUrl;
+    ViewData["EmailTitle"] = Model.Title;
+    ViewData["EmailPreview"] = Model.Preview;
+}
+
+<p>
+    @Model.Description
+</p>
+
+<br />
+
+@await Html.PartialAsync("EmailButton", new EmailButtonViewModel(Model.ButtonText, Model.Url))
+
+<p>
+    @Model.UrlDescription
+</p>
+
+<p>
+    @Model.Url
+</p>
