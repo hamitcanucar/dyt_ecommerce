@@ -73,7 +73,7 @@ namespace dyt_ecommerce.Controllers
                 Preview = _localizer["reset_pass_email_desc"],
                 Description = _localizer["reset_pass_email_desc"],
                 UrlDescription = _localizer["reset_pass_email_url_desc"],
-                Url = string.Format(PagesController.PW_RESET_URL, baseUrl, request.ID, request.Token),
+                // Url = string.Format(PagesController.PW_RESET_URL, baseUrl, request.ID, request.Token),
                 ButtonText = _localizer["reset_pass_email_btn_txt"]
             };
 

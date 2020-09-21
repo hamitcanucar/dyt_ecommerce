@@ -32,8 +32,10 @@ namespace dytsenayasar.DataAccess.Entities
         public GenderType Gender { get; set; }
         public bool Active { get; set; }
         public UserType UserType { get; set; }
+        public Guid? Image { get; set; }
 
         public UserClient Client { get; set; }
         public ICollection<UserRequest> Requests { get; set; }
+        public ICollection<UserContent> UserContents { get; set; }
     }
 }

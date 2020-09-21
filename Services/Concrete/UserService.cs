@@ -175,6 +175,17 @@ namespace dyt_ecommerce.Services.Concrete
             return result;
         }
 
+        public async Task<Guid?> UpdateImage(Guid id, Guid imgId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.ID == id);
+            if (user == null) return Guid.Empty;
+
+            var oldImgId = user.Image;
+            user.Image = imgId;
+            await _context.SaveChangesAsync();
+            return oldImgId;
+        }
+
         private async Task<User> SetUpdateValues(User user, UserModel model, string password = null)
         {
             if ((!String.IsNullOrEmpty(model.PersonalId)) || !String.IsNullOrEmpty(model.Email))

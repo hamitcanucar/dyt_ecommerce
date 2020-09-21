@@ -16,6 +16,9 @@ using dyt_ecommerce.Services.Abstract;
 using dyt_ecommerce.Services.Concrete;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using dyt_ecommerce.Util.RazorViewRenderer;
+using Microsoft.Extensions.Localization;
+using dyt_ecommerce.Util.JsonLocalizer;
 
 namespace dytsenayasar
 {
@@ -76,7 +79,12 @@ namespace dytsenayasar
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
+            services.AddScoped<IEmailService,EmailService>();
 
+            services.AddSingleton<IRazorViewRenderer, RazorViewRenderer>();
+            services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
+            services.AddSingleton<IStringLocalizer, JsonStringLocalizer>();
+            
             services.AddCors();
             services.AddControllersWithViews().AddNewtonsoftJson(o =>
             {

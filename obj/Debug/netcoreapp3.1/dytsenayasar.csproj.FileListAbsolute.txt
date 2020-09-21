@@ -132,3 +132,5 @@ C:\Proje\dyt_ecommerce\obj\Debug\netcoreapp3.1\Razor\Views\Shared\EmailButton.cs
 C:\Proje\dyt_ecommerce\obj\Debug\netcoreapp3.1\Razor\Views\Shared\EmailLayout.cshtml.g.cs
 C:\Proje\dyt_ecommerce\obj\Debug\netcoreapp3.1\dytsenayasar.RazorTargetAssemblyInfo.cs
 C:\Proje\dyt_ecommerce\obj\Debug\netcoreapp3.1\dytsenayasar.Views.pdb
+C:\Proje\dyt_ecommerce\bin\Debug\netcoreapp3.1\localization.json
+C:\Proje\dyt_ecommerce\bin\Debug\netcoreapp3.1\SixLabors.ImageSharp.dll

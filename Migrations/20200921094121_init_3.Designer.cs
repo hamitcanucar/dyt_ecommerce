@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using dytsenayasar.Context;
@@ -9,9 +10,10 @@ using dytsenayasar.Context;
 namespace dytsenayasar.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200921094121_init_3")]
+    partial class init_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,60 +21,6 @@ namespace dytsenayasar.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.Content", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<int>("AgeLimit")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("age_limit")
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
-
-                    b.Property<double>("BasePrice")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("base_price")
-                        .HasColumnType("double precision")
-                        .HasDefaultValue(0.0);
-
-                    b.Property<DateTime>("CreateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("create_time")
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnName("creator_id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("description")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<Guid?>("Image")
-                        .HasColumnName("image")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("title")
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<DateTime>("ValidityDate")
-                        .HasColumnName("validity_date")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("content");
-                });
 
             modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserClient", b =>
                 {
@@ -196,15 +144,6 @@ namespace dytsenayasar.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.Content", b =>
-                {
-                    b.HasOne("dytsenayasar.DataAccess.Entities.User", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserClient", b =>
