@@ -78,9 +78,13 @@ namespace dytsenayasar
             });
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IContentService, ContentService>();
+            services.AddScoped<IContentDeliveryService, ContentDeliveryService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
-            services.AddScoped<IEmailService,EmailService>();
 
+            services.AddSingleton<IFileManager, FileManager>();
+            services.AddSingleton<IFileTypeChecker, FileTypeChecker>();
+            services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IRazorViewRenderer, RazorViewRenderer>();
             services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
             services.AddSingleton<IStringLocalizer, JsonStringLocalizer>();
