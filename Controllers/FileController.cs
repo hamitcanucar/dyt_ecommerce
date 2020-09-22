@@ -15,6 +15,7 @@ using dyt_ecommerce.Models.Settings;
 using dyt_ecommerce.Services.Abstract;
 using dyt_ecommerce.Util;
 using dytsenayasar.DataAccess.Entities;
+using ContentType = dyt_ecommerce.DataAccess.Entities.ContentType;
 
 namespace dyt_ecommerce.Controllers
 {
@@ -32,9 +33,10 @@ namespace dyt_ecommerce.Controllers
         private readonly AppSettings _appSettings;
         private readonly IContentService _contentService;
         private readonly IUserService _userService;
+        private readonly IContentDeliveryService _contentDeliveryService;
 
         public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IContentService contentService,IUserService userService,
-            ILogger<FileController> logger, IOptions<FileManagerSettings> fileManagerSettings, IOptions<AppSettings> appSettings) : base(logger)
+            ILogger<FileController> logger, IContentDeliveryService contentDeliveryService, IOptions<FileManagerSettings> fileManagerSettings, IOptions<AppSettings> appSettings) : base(logger)
         {
             _fileManager = fileManager;
             _fileTypeChecker = fileTypeChecker;
@@ -42,6 +44,7 @@ namespace dyt_ecommerce.Controllers
             _userService = userService;
             _fileManagerSettings = fileManagerSettings.Value;
             _appSettings = appSettings.Value;
+            _contentDeliveryService = contentDeliveryService;
         }
 
         [HttpGet]
@@ -138,12 +141,12 @@ namespace dyt_ecommerce.Controllers
 
             if (User.IsInRole(Role.ADMIN))
             {
-                content = await _contentService.GetReference(id);
+                content = await _contentService.Get(id);
             }
             else
             {
                 var userId = GetUserIdFromToken();
-                content = await _contentService.GetContentReferenceIfAvailableForUser(id, userId);
+                content = await _contentService.GetUserContent(id, userId);
             }
 
             if (content == null)
@@ -225,28 +228,6 @@ namespace dyt_ecommerce.Controllers
             }
 
             return result;
-        }
-
-        [HttpPost]
-        [Route("user/{id}/image")]
-        [Authorize(Roles = Role.ADMIN)]
-        [DisableRequestSizeLimit]
-        public async Task<GenericResponse<string>> UploadUserImage(Guid id, [FromForm] IFormFile image)
-        {
-            if (!User.IsInRole(Role.ADMIN))
-            {
-                var inSameCorp = await _schoolService.CheckUsersInSameCorporation(GetUserIdFromToken(), id);
-                if (!inSameCorp)
-                {
-                    return new GenericResponse<string>
-                    {
-                        Code = nameof(ErrorMessages.USER_NOT_FOUND_IN_CORP),
-                        Message = ErrorMessages.USER_NOT_FOUND_IN_CORP
-                    };
-                }
-            }
-
-            return await UploadProfileImage(id, image);
         }
 
         [HttpPost]
@@ -390,6 +371,21 @@ namespace dyt_ecommerce.Controllers
 
             var validSignature = (fileId.ToString() + timestamp).HashToHmac256(_appSettings.FileRequestSecret);
             return validSignature == signature;
+        }
+        private Task<bool> CheckFileType(Stream stream, ContentType contentType)
+        {
+            return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
+        }
+
+        private GenericResponse<string> CreateWrongFileError(ContentType contentType)
+        {
+            var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
+
+            return new GenericResponse<string>
+            {
+                Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
+                Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
+            };
         }
 
         private Task<bool> CheckImageType(Stream stream)

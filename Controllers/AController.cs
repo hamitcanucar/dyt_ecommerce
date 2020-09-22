@@ -33,7 +33,7 @@ namespace dyt_ecommerce.Controllers
 
         protected UserType GetUserTypeFromToken()
         {
-            UserType userType = UserType.Client;
+            UserType userType = UserType.User;
             try
             {
                 if (!Enum.TryParse<UserType>(User.FindFirst(System.Security.Claims.ClaimTypes.Role).Value, out userType))

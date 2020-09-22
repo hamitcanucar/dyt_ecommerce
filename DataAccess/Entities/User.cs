@@ -7,11 +7,11 @@ using dytsenayasar.Types;
 namespace dytsenayasar.DataAccess.Entities
 {
     public enum GenderType { Male, Female }
-    public enum UserType { Client, Admin }
+    public enum UserType { User, Admin }
 
     public class Role
     {
-        public const string CLIENT = "Client";
+        public const string USER = "User";
         public const string ADMIN = "Admin";
     }
 
@@ -28,6 +28,7 @@ namespace dytsenayasar.DataAccess.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDay { get; set; }
+        public string City { get; set; }
         public string Phone { get; set; }
         public GenderType Gender { get; set; }
         public bool Active { get; set; }
@@ -35,6 +36,7 @@ namespace dytsenayasar.DataAccess.Entities
         public Guid? Image { get; set; }
 
         public UserClient Client { get; set; }
+        public UserForm Form { get; set; }
         public ICollection<UserRequest> Requests { get; set; }
         public ICollection<UserContent> UserContents { get; set; }
     }

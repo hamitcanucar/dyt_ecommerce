@@ -53,7 +53,7 @@ namespace dyt_ecommerce.Models
                 Phone = Phone,
                 BirthDay = BirthDay ?? DateTime.MinValue,
                 Gender = Gender ?? GenderType.Male,
-                UserType = UserType ?? dytsenayasar.DataAccess.Entities.UserType.Client,
+                UserType = UserType ?? dytsenayasar.DataAccess.Entities.UserType.User,
                 Active = Active ?? false,
                 Password = PersonalId.HashToSha256()
             };

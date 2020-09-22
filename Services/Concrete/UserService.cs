@@ -77,7 +77,7 @@ namespace dyt_ecommerce.Services.Concrete
             }
 
             user.Password = user.Password.HashToSha256();
-            user.UserType = UserType.Client;
+            user.UserType = UserType.User;
 
             _context.Add(user);
             await _context.SaveChangesAsync();

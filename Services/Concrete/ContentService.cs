@@ -61,6 +61,20 @@ namespace dyt_ecommerce.Services.Concrete
             return await _context.Contents.AsNoTracking().FirstOrDefaultAsync(x => x.ID == id);
         }
 
+        public async Task<Content> GetUserContent(Guid id, Guid userId)
+        {
+            var userContent = await _context.UserContents.FirstOrDefaultAsync(q => q.UserId == userId);
+
+            if (userContent == null)
+            {
+                return null;
+            }
+            else
+            {
+                return await _context.Contents.AsNoTracking().FirstOrDefaultAsync(x => x.ID == id);
+            }
+        }
+
         public async Task<ICollection<Content>> GetAllContent(int limit = 20, int offset = 0)
         {
             return await _context.Contents
@@ -73,8 +87,6 @@ namespace dyt_ecommerce.Services.Concrete
         {
             return await _context.Contents.LongCountAsync();
         }
-
-        
 
         private async Task<Content> Delete(Content content)
         {
@@ -97,8 +109,6 @@ namespace dyt_ecommerce.Services.Concrete
 
             content.Title = (String.IsNullOrEmpty(model.Title)) ? content.Title : model.Title;
             content.Description = model.Description ?? content.Description;
-            content.AgeLimit = model.AgeLimit ?? content.AgeLimit;
-            content.BasePrice = model.Price ?? content.BasePrice;
             content.ValidityDate = model.ValidityDate ?? content.ValidityDate;
 
             Guid picId, fileId;

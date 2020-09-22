@@ -6,19 +6,21 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace dyt_ecommerce.DataAccess.Entities
 {
+    public enum ContentType { Any, Pdf, Epub, Png, Mp4, Doc, Docx }
+
     public class Content : AEntity, IEntityWithImage, IEntityWithFile
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public int AgeLimit { get; set; }
-        public double BasePrice { get; set; }
         public Guid? Image { get; set; }
         public Guid? File { get; set; }
         public DateTime ValidityDate { get; set; }
+        public ContentType ContentType { get; set; }
         
         public Guid CreatorId { get; set; }
         public User Creator { get; set; }
         public ICollection<UserContent> UserContents { get; set; }
+        public ICollection<ContentCategory> ContentCategories { get; set; }
     }
 
     public class ContentEntityConfiguration : EntityConfiguration<Content>
@@ -38,12 +40,6 @@ namespace dyt_ecommerce.DataAccess.Entities
             builder.Property(c => c.Description)
                 .HasColumnName("description")
                 .HasColumnType("varchar(255)");
-            builder.Property(c => c.AgeLimit)
-                .HasColumnName("age_limit")
-                .HasDefaultValue(0);
-            builder.Property(c => c.BasePrice)
-                .HasColumnName("base_price")
-                .HasDefaultValue(0);
             builder.Property(c => c.Image)
                 .HasColumnName("image");
             builder.Property(c => c.ValidityDate)

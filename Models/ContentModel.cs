@@ -31,8 +31,6 @@ namespace dyt_ecommerce.Models
             {
                 Title = Title,
                 Description = Description,
-                AgeLimit = AgeLimit ?? 0,
-                BasePrice = Price ?? 0,
                 ValidityDate = ValidityDate ?? DateTime.MaxValue,
             };
 
@@ -48,8 +46,6 @@ namespace dyt_ecommerce.Models
             ID = entity.ID;
             Title = entity.Title;
             Description = entity.Description;
-            AgeLimit = entity.AgeLimit;
-            Price = entity.BasePrice;
             ValidityDate = entity.ValidityDate;
 
         }
