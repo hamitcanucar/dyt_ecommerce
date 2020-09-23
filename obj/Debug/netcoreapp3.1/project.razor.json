@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Proje\\dytsenayasar\\dytsenayasar.csproj",
+  "FilePath": "c:\\Users\\h.ucar\\Documents\\dytsenayasar\\dytsenayasar.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14392,33 +14392,33 @@
   "RootNamespace": "dytsenayasar",
   "Documents": [
     {
-      "FilePath": "c:\\Proje\\dytsenayasar\\Views\\Pages\\ResetPassword.cshtml",
+      "FilePath": "c:\\Users\\h.ucar\\Documents\\dytsenayasar\\Views\\Pages\\ResetPassword.cshtml",
       "TargetPath": "Views\\Pages\\ResetPassword.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Proje\\dytsenayasar\\Views\\Pages\\ActivateAccount.cshtml",
-      "TargetPath": "Views\\Pages\\ActivateAccount.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Proje\\dytsenayasar\\Views\\Emails\\EmailWithConfirmButton.cshtml",
+      "FilePath": "c:\\Users\\h.ucar\\Documents\\dytsenayasar\\Views\\Emails\\EmailWithConfirmButton.cshtml",
       "TargetPath": "Views\\Emails\\EmailWithConfirmButton.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Proje\\dytsenayasar\\Views\\Shared\\EmailButton.cshtml",
+      "FilePath": "c:\\Users\\h.ucar\\Documents\\dytsenayasar\\Views\\Shared\\EmailLayout.cshtml",
+      "TargetPath": "Views\\Shared\\EmailLayout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\h.ucar\\Documents\\dytsenayasar\\Views\\Shared\\EmailButton.cshtml",
       "TargetPath": "Views\\Shared\\EmailButton.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Proje\\dytsenayasar\\Views\\Emails\\_ViewStart.cshtml",
+      "FilePath": "c:\\Users\\h.ucar\\Documents\\dytsenayasar\\Views\\Emails\\_ViewStart.cshtml",
       "TargetPath": "Views\\Emails\\_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Proje\\dytsenayasar\\Views\\Shared\\EmailLayout.cshtml",
-      "TargetPath": "Views\\Shared\\EmailLayout.cshtml",
+      "FilePath": "c:\\Users\\h.ucar\\Documents\\dytsenayasar\\Views\\Pages\\ActivateAccount.cshtml",
+      "TargetPath": "Views\\Pages\\ActivateAccount.cshtml",
       "FileKind": "mvc"
     }
   ],

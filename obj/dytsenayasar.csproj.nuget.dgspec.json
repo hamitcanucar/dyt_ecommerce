@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj": {}
+    "C:\\Users\\h.ucar\\Documents\\dytsenayasar\\dytsenayasar.csproj": {}
   },
   "projects": {
-    "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj": {
+    "C:\\Users\\h.ucar\\Documents\\dytsenayasar\\dytsenayasar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj",
+        "projectUniqueName": "C:\\Users\\h.ucar\\Documents\\dytsenayasar\\dytsenayasar.csproj",
         "projectName": "dytsenayasar",
-        "projectPath": "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj",
+        "projectPath": "C:\\Users\\h.ucar\\Documents\\dytsenayasar\\dytsenayasar.csproj",
         "packagesPath": "C:\\Users\\h.ucar\\.nuget\\packages\\",
-        "outputPath": "C:\\Proje\\dytsenayasar\\obj\\",
+        "outputPath": "C:\\Users\\h.ucar\\Documents\\dytsenayasar\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\h.ucar\\AppData\\Roaming\\NuGet\\NuGet.Config"
