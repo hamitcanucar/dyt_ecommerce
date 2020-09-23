@@ -11,6 +11,8 @@ namespace dytsenayasar
         public const string USER_UPDATE_WRONG_OLDPASS = "Wrong old password!";
         public const string CORP_CREATE_CONFLICT = "There are conflicted constraints. Should be: personalId, email";
         public const string FILE_CONTENT_NOT_FOUND = "Content not found! File upload failed.";
+        public const string CONTENT_HAS_WRONG_CATEGORY_ID = "Content has wrong category id. Get correct category ids from GET:/content/categories";
+        public const string CONTENT_NOT_FOUND = "Content not found!";
         public const string FILE_TOO_BIG = "Too big {0}. Max size: {1} MB";
         public const string FILE_EMPTY = "Empty file! Please select correct file.";
         public const string FILE_TYPE_WRONG = "Wrong file type! Should be: {0}";

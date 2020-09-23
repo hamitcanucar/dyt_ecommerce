@@ -23,6 +23,7 @@ namespace dytsenayasar.Services.Abstract
         Task<long> FindCount(UserFindParametersModel parameters);
         Task<bool> SaveClientId(Guid userId, string clientId);
         Task<ICollection<string>> GetClientIds(ICollection<Guid> userIds);
+        IQueryable<UserMembershipModel> CreateUserMembershipTableQuery();
         
     }
 }

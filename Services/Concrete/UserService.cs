@@ -269,5 +269,16 @@ namespace dytsenayasar.Services.Concrete
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public IQueryable<UserMembershipModel> CreateUserMembershipTableQuery()
+        {
+            return 
+                   from u in _context.Users
+                   select new UserMembershipModel
+                   {
+                       UserId = u.ID,
+                       User = u
+                   };
+        }
     }
 }

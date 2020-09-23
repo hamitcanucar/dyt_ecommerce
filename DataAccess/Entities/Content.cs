@@ -46,6 +46,10 @@ namespace dytsenayasar.DataAccess.Entities
                 .HasColumnName("validity_date");
             builder.Property(c => c.CreatorId)
                 .HasColumnName("creator_id");
+            builder.Property(c => c.ContentType)
+                .HasColumnName("content_type");
+            builder.Property(c => c.File)
+                .HasColumnName("file");
         }
     }
 }

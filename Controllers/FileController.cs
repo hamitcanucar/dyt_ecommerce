@@ -238,7 +238,7 @@ namespace dytsenayasar.Controllers
         {
             return UploadProfileImage(GetUserIdFromToken(), image);
         }
-
+        [NonAction]
         private async Task<GenericResponse<string>> UploadProfileImage(Guid userId, IFormFile image)
         {
             var result = await UploadImage(image);
@@ -262,7 +262,7 @@ namespace dytsenayasar.Controllers
 
             return new GenericResponse<string> { Success = true };
         }
-
+        [NonAction]
         private async Task<GenericResponse<string>> UploadImage(IFormFile image)
         {
             if (image == null)
@@ -287,14 +287,14 @@ namespace dytsenayasar.Controllers
 
             return new GenericResponse<string> { Success = true, Data = imgName };
         }
-
+        [NonAction]
         private void DeleteOldImage(Guid? imgId)
         {
             if (imgId.HasValue) _ = _fileManager.DeleteImage(imgId.Value.ToString());
         }
-
+        [NonAction]
         private GenericResponse<string> ReturnUploadFileWithImageResult(String imageName, FileManagerStatus imgStatus,
-            String fileName, FileManagerStatus fileStatus)
+                    String fileName, FileManagerStatus fileStatus)
         {
             if (fileStatus == FileManagerStatus.Completed && imgStatus == FileManagerStatus.Completed)
             {
@@ -319,7 +319,7 @@ namespace dytsenayasar.Controllers
             }
 
         }
-
+        [NonAction]
         private GenericResponse<string> returnFileWriteError(FileManagerStatus fileStatus, string fileName)
         {
             if (fileStatus == FileManagerStatus.TooBigFile)
@@ -338,7 +338,7 @@ namespace dytsenayasar.Controllers
 
             }
         }
-
+        [NonAction]
         private GenericResponse<string> returnImageWriteError(FileManagerStatus imgStatus, string imageName)
         {
             if (imgStatus == FileManagerStatus.TooBigFile)
@@ -357,6 +357,7 @@ namespace dytsenayasar.Controllers
             }
         }
 
+        [NonAction]
         //Requires timestamp and signature headers
         private bool CheckSignature(Guid fileId)
         {
@@ -373,16 +374,19 @@ namespace dytsenayasar.Controllers
             return validSignature == signature;
         }
 
+        [NonAction]
         private Task<bool> CheckFileType(Stream stream, ContentType contentType)
         {
             return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
         }
-
+        
+        [NonAction]
         private Task<bool> CheckImageType(Stream stream)
         {
             return _fileTypeChecker.IsFileTypeCorrect(stream, FileType.Image);
         }
 
+        [NonAction]
         private GenericResponse<string> CreateWrongImageError()
         {
             return new GenericResponse<string>
@@ -392,6 +396,7 @@ namespace dytsenayasar.Controllers
             };
         }
 
+        [NonAction]
         private GenericResponse<string> CreateWrongFileError(ContentType contentType)
         {
             var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
