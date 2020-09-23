@@ -15,7 +15,7 @@ export SLIB_CORS_ADDRESS="*"
 
 export PG_USER="db_user"
 export PG_PASSWORD="database_pass"
-export PG_CONNECTION_STR="Host=postgres;Database=slibrary;Username=$PG_USER;Password=$PG_PASSWORD"
+export PG_CONNECTION_STR="Host=postgres;Database=dytsenayasar;Username=$PG_USER;Password=$PG_PASSWORD"
 
 export SMTP_SENDER="DytSenaYasar"
 export SMTP_SV="smtp.gmail.com"
