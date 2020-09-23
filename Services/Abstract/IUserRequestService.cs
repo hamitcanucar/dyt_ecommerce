@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using dyt_ecommerce.DataAccess.Entities;
+using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Services.Abstract
+namespace dytsenayasar.Services.Abstract
 {
     public interface IUserRequestService
     {

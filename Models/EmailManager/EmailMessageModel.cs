@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace dyt_ecommerce.Models.EmailManager
+namespace dytsenayasar.Models.EmailManager
 {
     public class EmailMessageModel
     {

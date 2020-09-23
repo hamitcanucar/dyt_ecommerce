@@ -1,7 +1,7 @@
 using System;
 using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Models
+namespace dytsenayasar.Models
 {
     public class UserFindParametersModel
     {

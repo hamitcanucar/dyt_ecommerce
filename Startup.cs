@@ -12,13 +12,13 @@ using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using dytsenayasar.Context;
-using dyt_ecommerce.Services.Abstract;
-using dyt_ecommerce.Services.Concrete;
+using dytsenayasar.Services.Abstract;
+using dytsenayasar.Services.Concrete;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-using dyt_ecommerce.Util.RazorViewRenderer;
+using dytsenayasar.Util.RazorViewRenderer;
 using Microsoft.Extensions.Localization;
-using dyt_ecommerce.Util.JsonLocalizer;
+using dytsenayasar.Util.JsonLocalizer;
 
 namespace dytsenayasar
 {

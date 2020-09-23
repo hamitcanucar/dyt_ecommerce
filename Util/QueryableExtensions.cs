@@ -1,7 +1,7 @@
 using System.Linq;
-using dyt_ecommerce.DataAccess.Entities;
+using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Util
+namespace dytsenayasar.Util
 {
     public static class QueryableExtensions
     {

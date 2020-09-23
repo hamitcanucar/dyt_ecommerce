@@ -1,6 +1,6 @@
 using System;
 
-namespace dyt_ecommerce.DataAccess.Entities
+namespace dytsenayasar.DataAccess.Entities
 {
     public interface IEntityWithFile
     {

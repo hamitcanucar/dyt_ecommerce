@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0BgH4SgfTcDBfoHpOILnJ+FtE3D0UbU8WZq3EWCI+ILrcYmO8svKz9awetQUjWpLtzVrdNgfvAJea5L1eFjhrQ==",
+  "dgSpecHash": "DBChhT/QHR/gKY2uCahOI/XXgOCD/Co/eHq0O92vV0eahjXs1AcLXn3q/IBD+f7IUHHOizMuWZO1KJVANh7Ayw==",
   "success": true,
-  "projectFilePath": "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj",
+  "projectFilePath": "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\h.ucar\\.nuget\\packages\\mailkit\\2.9.0\\mailkit.2.9.0.nupkg.sha512",
     "C:\\Users\\h.ucar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.8\\microsoft.aspnetcore.authentication.jwtbearer.3.1.8.nupkg.sha512",

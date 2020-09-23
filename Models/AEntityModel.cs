@@ -1,7 +1,7 @@
 using System;
-using dyt_ecommerce.DataAccess.Entities;
+using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Models
+namespace dytsenayasar.Models
 {
    public abstract class AEntityModel<TEntity, TModel> where TEntity : AEntity
     {

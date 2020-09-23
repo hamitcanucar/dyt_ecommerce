@@ -1,15 +1,15 @@
 using System.Linq;
 using System.Threading.Tasks;
-using dyt_ecommerce.Models.EmailManager;
-using dyt_ecommerce.Models.Settings;
-using dyt_ecommerce.Services.Abstract;
+using dytsenayasar.Models.EmailManager;
+using dytsenayasar.Models.Settings;
+using dytsenayasar.Services.Abstract;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
 using MailKit.Net.Smtp;
 
-namespace dyt_ecommerce.Services.Concrete
+namespace dytsenayasar.Services.Concrete
 {
     public class EmailService : IEmailService
     {

@@ -1,8 +1,8 @@
 using System;
-using dyt_ecommerce.Util;
+using dytsenayasar.Util;
 using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Models
+namespace dytsenayasar.Models
 {
     public class UserModel : AEntityModel<User, UserModel>
     {

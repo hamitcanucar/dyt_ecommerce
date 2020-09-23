@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using dyt_ecommerce.DataAccess;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Models;
-using dyt_ecommerce.Services.Abstract;
-using dyt_ecommerce.Util;
+using dytsenayasar.DataAccess;
+using dytsenayasar.DataAccess.Entities;
+using dytsenayasar.Models;
+using dytsenayasar.Services.Abstract;
+using dytsenayasar.Util;
 using dytsenayasar.Context;
 
-namespace dyt_ecommerce.Services.Concrete
+namespace dytsenayasar.Services.Concrete
 {
     public class ContentService : IContentService
     {

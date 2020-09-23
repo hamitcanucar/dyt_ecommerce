@@ -9,15 +9,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Models.ControllerModels;
-using dyt_ecommerce.Models.Settings;
-using dyt_ecommerce.Services.Abstract;
-using dyt_ecommerce.Util;
 using dytsenayasar.DataAccess.Entities;
-using ContentType = dyt_ecommerce.DataAccess.Entities.ContentType;
+using dytsenayasar.Models.ControllerModels;
+using dytsenayasar.Models.Settings;
+using dytsenayasar.Services.Abstract;
+using dytsenayasar.Util;
+using ContentType = dytsenayasar.DataAccess.Entities.ContentType;
 
-namespace dyt_ecommerce.Controllers
+namespace dytsenayasar.Controllers
 {
     [Route("file")]
     [ApiController]
@@ -32,19 +31,20 @@ namespace dyt_ecommerce.Controllers
         private readonly FileManagerSettings _fileManagerSettings;
         private readonly AppSettings _appSettings;
         private readonly IContentService _contentService;
-        private readonly IUserService _userService;
         private readonly IContentDeliveryService _contentDeliveryService;
+        private readonly IUserService _userService;
 
-        public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IContentService contentService,IUserService userService,
-            ILogger<FileController> logger, IContentDeliveryService contentDeliveryService, IOptions<FileManagerSettings> fileManagerSettings, IOptions<AppSettings> appSettings) : base(logger)
+        public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IContentService contentService,
+            IContentDeliveryService contentDeliveryService, IUserService userService,
+            ILogger<FileController> logger, IOptions<FileManagerSettings> fileManagerSettings, IOptions<AppSettings> appSettings) : base(logger)
         {
             _fileManager = fileManager;
             _fileTypeChecker = fileTypeChecker;
             _contentService = contentService;
+            _contentDeliveryService = contentDeliveryService;
             _userService = userService;
             _fileManagerSettings = fileManagerSettings.Value;
             _appSettings = appSettings.Value;
-            _contentDeliveryService = contentDeliveryService;
         }
 
         [HttpGet]
@@ -372,20 +372,10 @@ namespace dyt_ecommerce.Controllers
             var validSignature = (fileId.ToString() + timestamp).HashToHmac256(_appSettings.FileRequestSecret);
             return validSignature == signature;
         }
+
         private Task<bool> CheckFileType(Stream stream, ContentType contentType)
         {
             return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
-        }
-
-        private GenericResponse<string> CreateWrongFileError(ContentType contentType)
-        {
-            var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
-
-            return new GenericResponse<string>
-            {
-                Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
-                Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
-            };
         }
 
         private Task<bool> CheckImageType(Stream stream)
@@ -399,6 +389,17 @@ namespace dyt_ecommerce.Controllers
             {
                 Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
                 Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, "Png, Jpg, Bmp, Gif")
+            };
+        }
+
+        private GenericResponse<string> CreateWrongFileError(ContentType contentType)
+        {
+            var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
+
+            return new GenericResponse<string>
+            {
+                Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
+                Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
             };
         }
     }

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace dyt_ecommerce.Models.ControllerModels.UserControllerModels
+namespace dytsenayasar.Models.ControllerModels.UserControllerModels
 {
     public class LoginRequestModel
     {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj": {}
+    "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj": {}
   },
   "projects": {
-    "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj": {
+    "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj",
+        "projectUniqueName": "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj",
         "projectName": "dytsenayasar",
-        "projectPath": "C:\\Proje\\dyt_ecommerce\\dytsenayasar.csproj",
+        "projectPath": "C:\\Proje\\dytsenayasar\\dytsenayasar.csproj",
         "packagesPath": "C:\\Users\\h.ucar\\.nuget\\packages\\",
-        "outputPath": "C:\\Proje\\dyt_ecommerce\\obj\\",
+        "outputPath": "C:\\Proje\\dytsenayasar\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\h.ucar\\AppData\\Roaming\\NuGet\\NuGet.Config"

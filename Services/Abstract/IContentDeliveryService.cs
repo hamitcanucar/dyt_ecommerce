@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Models;
 using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Services.Abstract
+namespace dytsenayasar.Services.Abstract
 {
     public interface IContentDeliveryService
     {

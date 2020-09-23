@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using dyt_ecommerce.Services.Abstract;
+using dytsenayasar.Services.Abstract;
 
-namespace dyt_ecommerce.Services.Concrete
+namespace dytsenayasar.Services.Concrete
 {
     public class FileTypeChecker : IFileTypeChecker
     {

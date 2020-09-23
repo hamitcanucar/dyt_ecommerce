@@ -1,4 +1,4 @@
-namespace dyt_ecommerce.Models.ControllerModels
+namespace dytsenayasar.Models.ControllerModels
 {
     public class GenericResponse<T>
     {

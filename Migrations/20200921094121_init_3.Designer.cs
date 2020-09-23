@@ -22,7 +22,7 @@ namespace dytsenayasar.Migrations
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserClient", b =>
+            modelBuilder.Entity("dytsenayasar.DataAccess.Entities.UserClient", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace dytsenayasar.Migrations
                     b.ToTable("user_client");
                 });
 
-            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserRequest", b =>
+            modelBuilder.Entity("dytsenayasar.DataAccess.Entities.UserRequest", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -146,16 +146,16 @@ namespace dytsenayasar.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserClient", b =>
+            modelBuilder.Entity("dytsenayasar.DataAccess.Entities.UserClient", b =>
                 {
                     b.HasOne("dytsenayasar.DataAccess.Entities.User", "User")
                         .WithOne("Client")
-                        .HasForeignKey("dyt_ecommerce.DataAccess.Entities.UserClient", "UserId")
+                        .HasForeignKey("dytsenayasar.DataAccess.Entities.UserClient", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("dyt_ecommerce.DataAccess.Entities.UserRequest", b =>
+            modelBuilder.Entity("dytsenayasar.DataAccess.Entities.UserRequest", b =>
                 {
                     b.HasOne("dytsenayasar.DataAccess.Entities.User", "User")
                         .WithMany("Requests")

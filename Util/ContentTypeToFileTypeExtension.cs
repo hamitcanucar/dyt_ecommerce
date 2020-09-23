@@ -1,7 +1,7 @@
-using dyt_ecommerce.Services.Abstract;
-using dyt_ecommerce.DataAccess.Entities;
+using dytsenayasar.Services.Abstract;
+using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Util
+namespace dytsenayasar.Util
 {
     public static class ContentTypeToFileTypeExtension
     {

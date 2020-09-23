@@ -2,7 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace dyt_ecommerce.DataAccess.Entities
+namespace dytsenayasar.DataAccess.Entities
 {
     public class ContentCategory : AEntity
     {

@@ -4,7 +4,7 @@ using dytsenayasar.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace dyt_ecommerce.DataAccess.Entities
+namespace dytsenayasar.DataAccess.Entities
 {
     public enum ContentType { Any, Pdf, Epub, Png, Mp4, Doc, Docx }
 

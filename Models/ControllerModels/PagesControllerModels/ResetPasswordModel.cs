@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace dyt_ecommerce.Models.ControllerModels.PagesControllerModels
+namespace dytsenayasar.Models.ControllerModels.PagesControllerModels
 {
     public class ResetPasswordModel : IValidatableObject
     {

@@ -7,7 +7,7 @@ using dytsenayasar.DataAccess.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace dyt_ecommerce.Helpers
+namespace dytsenayasar.Helpers
 {
     public class GenerateJwtHelper
     {

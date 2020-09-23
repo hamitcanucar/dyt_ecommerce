@@ -3,7 +3,7 @@ using dytsenayasar.DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace dyt_ecommerce.Controllers
+namespace dytsenayasar.Controllers
 {
     public abstract class AController<T> : ControllerBase
     {

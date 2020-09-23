@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Services.Abstract;
-using dyt_ecommerce.Util;
+using dytsenayasar.DataAccess.Entities;
+using dytsenayasar.Services.Abstract;
+using dytsenayasar.Util;
 using dytsenayasar.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace dyt_ecommerce.Services.Concrete
+namespace dytsenayasar.Services.Concrete
 {
     public class UserRequestService : IUserRequestService
     {

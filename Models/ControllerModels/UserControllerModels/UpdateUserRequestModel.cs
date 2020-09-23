@@ -1,9 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using dyt_ecommerce.DataAccess.Entities;
 using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Models.ControllerModels.UserControllerModels
+namespace dytsenayasar.Models.ControllerModels.UserControllerModels
 {
     public class UpdateUserRequestModel : AControllerEntityModel<UserModel>
     {

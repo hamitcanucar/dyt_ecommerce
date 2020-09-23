@@ -2,23 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Models;
-using dyt_ecommerce.Models.ControllerModels;
-using dyt_ecommerce.Models.ControllerModels.UserControllerModels;
-using dyt_ecommerce.Models.Settings;
-using dyt_ecommerce.Services.Abstract;
-using dyt_ecommerce.Util;
-using dyt_ecommerce.Util.RazorViewRenderer;
 using dytsenayasar.DataAccess.Entities;
+using dytsenayasar.Models;
+using dytsenayasar.Models.ControllerModels;
+using dytsenayasar.Models.ControllerModels.UserControllerModels;
+using dytsenayasar.Models.Settings;
+using dytsenayasar.Services.Abstract;
+using dytsenayasar.Util;
+using dytsenayasar.Util.RazorViewRenderer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using SlibraryWebapi.Models.ControllerModels.UserControllerModels;
 
-namespace dyt_ecommerce.Controllers
+namespace dytsenayasar.Controllers
 {
     [Route("user")]
     [Microsoft.AspNetCore.Mvc.ApiController]

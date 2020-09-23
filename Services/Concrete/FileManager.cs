@@ -6,10 +6,10 @@ using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
-using dyt_ecommerce.Models.Settings;
-using dyt_ecommerce.Services.Abstract;
+using dytsenayasar.Models.Settings;
+using dytsenayasar.Services.Abstract;
 
-namespace dyt_ecommerce.Services.Concrete
+namespace dytsenayasar.Services.Concrete
 {
     public class FileManager : IFileManager
     {

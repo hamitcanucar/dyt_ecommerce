@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Models.ControllerModels.PagesControllerModels;
-using dyt_ecommerce.Services.Abstract;
-using dyt_ecommerce.Util;
+using dytsenayasar.DataAccess.Entities;
+using dytsenayasar.Models.ControllerModels.PagesControllerModels;
+using dytsenayasar.Services.Abstract;
+using dytsenayasar.Util;
 
-namespace dyt_ecommerce.Controllers
+namespace dytsenayasar.Controllers
 {
     [Route("pages")]
     [Controller]

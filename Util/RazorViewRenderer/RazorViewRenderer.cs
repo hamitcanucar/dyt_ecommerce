@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dyt_ecommerce.Util.RazorViewRenderer
+namespace dytsenayasar.Util.RazorViewRenderer
 {
     public class RazorViewRenderer : IRazorViewRenderer
     {

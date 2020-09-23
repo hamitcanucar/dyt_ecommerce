@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Models;
+using dytsenayasar.DataAccess.Entities;
+using dytsenayasar.Models;
 
-namespace dyt_ecommerce.Services.Abstract
+namespace dytsenayasar.Services.Abstract
 {
     public interface IContentService
     {

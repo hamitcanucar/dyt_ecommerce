@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Localization;
 
-namespace dyt_ecommerce.Util.JsonLocalizer
+namespace dytsenayasar.Util.JsonLocalizer
 {
     public class JsonStringLocalizerFactory : IStringLocalizerFactory
     {

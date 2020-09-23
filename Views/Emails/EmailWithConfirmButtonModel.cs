@@ -1,4 +1,4 @@
-namespace dyt_ecommerce.Views.Emails
+namespace dytsenayasar.Views.Emails
 {
     public class EmailWithConfirmButtonModel
     {

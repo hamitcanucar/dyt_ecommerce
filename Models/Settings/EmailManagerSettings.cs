@@ -1,4 +1,4 @@
-namespace dyt_ecommerce.Models.Settings
+namespace dytsenayasar.Models.Settings
 {
     public class EmailManagerSettings
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace dyt_ecommerce.Util
+namespace dytsenayasar.Util
 {
     public static class StringSplitExtensions
     {

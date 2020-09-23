@@ -3,7 +3,7 @@ using dytsenayasar.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace dyt_ecommerce.DataAccess.Entities
+namespace dytsenayasar.DataAccess.Entities
 {
     public enum UserRequestType { PasswordReset, ActivateAccount }
     public class UserRequest : AEntity

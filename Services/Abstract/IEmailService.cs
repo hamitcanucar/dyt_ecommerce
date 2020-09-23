@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using dyt_ecommerce.Models.EmailManager;
+using dytsenayasar.Models.EmailManager;
 
-namespace dyt_ecommerce.Services.Abstract
+namespace dytsenayasar.Services.Abstract
 {
     public interface IEmailService
     {

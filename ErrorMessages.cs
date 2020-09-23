@@ -1,4 +1,4 @@
-namespace dyt_ecommerce
+namespace dytsenayasar
 {
     public static class ErrorMessages
     {

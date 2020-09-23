@@ -1,4 +1,4 @@
-namespace dyt_ecommerce.Models.EmailManager
+namespace dytsenayasar.Models.EmailManager
 {
     public class EmailAddressModel
     {

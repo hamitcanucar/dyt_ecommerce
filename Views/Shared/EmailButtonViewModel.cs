@@ -1,4 +1,4 @@
-namespace dyt_ecommerce.Views.Shared
+namespace dytsenayasar.Views.Shared
 {
     public class EmailButtonViewModel
     {

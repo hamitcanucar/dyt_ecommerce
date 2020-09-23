@@ -3,20 +3,18 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using dyt_ecommerce.Models;
-using dyt_ecommerce.Util;
+using dytsenayasar.Models;
+using dytsenayasar.Util;
 using dytsenayasar.Context;
 using dytsenayasar.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 using System.Collections.Generic;
-using dyt_ecommerce.DataAccess.Entities;
-using dyt_ecommerce.Services.Abstract;
+using dytsenayasar.Services.Abstract;
 using Microsoft.Extensions.Configuration;
 
-namespace dyt_ecommerce.Services.Concrete
+namespace dytsenayasar.Services.Concrete
 {
     public class UserService : IUserService
     {

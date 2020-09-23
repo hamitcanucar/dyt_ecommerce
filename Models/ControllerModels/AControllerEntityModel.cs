@@ -1,6 +1,6 @@
-using dyt_ecommerce.DataAccess.Entities;
+using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Models.ControllerModels
+namespace dytsenayasar.Models.ControllerModels
 {
     public abstract class AControllerEntityModel<TEntityModel>
     {

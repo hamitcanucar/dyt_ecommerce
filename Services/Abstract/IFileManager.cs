@@ -1,7 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace dyt_ecommerce.Services.Abstract
+namespace dytsenayasar.Services.Abstract
 {
     public enum FileManagerStatus{
         Completed,

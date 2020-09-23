@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace dyt_ecommerce.Util.JsonLocalizer
+namespace dytsenayasar.Util.JsonLocalizer
 {
     public class JsonLocalization
     {

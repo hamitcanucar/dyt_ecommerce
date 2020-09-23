@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace dyt_ecommerce.Util
+namespace dytsenayasar.Util
 {
     public static class HashExtentions
     {

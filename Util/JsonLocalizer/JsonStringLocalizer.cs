@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
-namespace dyt_ecommerce.Util.JsonLocalizer
+namespace dytsenayasar.Util.JsonLocalizer
 {
     public class JsonStringLocalizer : IStringLocalizer
     {

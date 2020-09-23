@@ -1,7 +1,7 @@
-using dyt_ecommerce.Controllers;
-using dyt_ecommerce.DataAccess.Entities;
+using dytsenayasar.Controllers;
+using dytsenayasar.DataAccess.Entities;
 
-namespace dyt_ecommerce.Models
+namespace dytsenayasar.Models
 {
     public abstract class AEntityModelWithFile<TEntity, TModel> : AEntityModelWithImage<TEntity, TModel> 
         where TEntity : AEntity, IEntityWithImage, IEntityWithFile

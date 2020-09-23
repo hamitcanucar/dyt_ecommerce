@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace dyt_ecommerce.Util
+namespace dytsenayasar.Util
 {
     public static class HttpResponseExtensions
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using dyt_ecommerce.DataAccess.Entities;
+using dytsenayasar.DataAccess.Entities;
 using dytsenayasar.Types;
 
 namespace dytsenayasar.DataAccess.Entities
