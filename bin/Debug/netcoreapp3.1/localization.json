@@ -1,0 +1,149 @@
+[
+  {
+    "Name": "reset_pass_title",
+    "LocalizedValue": {
+      "tr-TR": "Şifre Sıfırlama",
+      "en-US": "Password Reset"
+    }
+  },
+  {
+    "Name": "reset_pass_new_pass",
+    "LocalizedValue": {
+      "tr-TR": "Yeni şifreniz",
+      "en-US": "New password"
+    }
+  },
+  {
+    "Name": "reset_pass_confirm",
+    "LocalizedValue": {
+      "tr-TR": "Şifre tekrar",
+      "en-US": "Confirm password"
+    }
+  },
+  {
+    "Name": "reset_pass_req_nf",
+    "LocalizedValue": {
+      "tr-TR": "Şifre yenileme isteği bulunamadı!",
+      "en-US": "Password reset request not found!"
+    }
+  },
+  {
+    "Name": "reset_pass_req_expired",
+    "LocalizedValue": {
+      "tr-TR": "Şifre yenileme isteğinin süresi dolmuş! Lütfen yeni bir istek oluşturup e-postanızı kontrol edin.",
+      "en-US": "Password reset request expired! Please create new request and check your email inbox."
+    }
+  },
+  {
+    "Name": "reset_pass_success",
+    "LocalizedValue": {
+      "tr-TR": "Şifre yenileme başarılı.",
+      "en-US": "Password reset success."
+    }
+  },
+  {
+    "Name": "reset_pass_failure",
+    "LocalizedValue": {
+      "tr-TR": "Şifre yenileme başarısız!",
+      "en-US": "Password reset failure!"
+    }
+  },
+  {
+    "Name": "reset_pass_dont_match",
+    "LocalizedValue": {
+      "tr-TR": "Şifreler eşleşmiyor!",
+      "en-US": "Passwords don't match!"
+    }
+  },
+  {
+    "Name": "reset_pass_email_title",
+    "LocalizedValue": {
+      "tr-TR": "Şifre Sıfırlama",
+      "en-US": "Password Reset"
+    }
+  },
+  {
+    "Name": "reset_pass_email_desc",
+    "LocalizedValue": {
+      "tr-TR": "Giriş yapmakta sorun mu yaşıyorsunuz? Şifrenizi sıfırlamak için aşağıdaki butona basınız.",
+      "en-US": "Having trouble signing in? Press the button below to reset the password."
+    }
+  },
+  {
+    "Name": "reset_pass_email_url_desc",
+    "LocalizedValue": {
+      "tr-TR": "Eğer buton çalışmıyorsa, aşağıdaki linki tarayıcınıza kopyalayabilirsiniz.",
+      "en-US": "If the button does not work, copy and paste the following link in your browser:"
+    }
+  },
+  {
+    "Name": "reset_pass_email_btn_txt",
+    "LocalizedValue": {
+      "tr-TR": "Şifremi Sıfırla",
+      "en-US": "Password Reset"
+    }
+  },
+  {
+    "Name": "activate_account_req_expired",
+    "LocalizedValue": {
+      "tr-TR": "Hesap aktifleştirme isteğinin süresi dolmuş! Lütfen yeni bir istek oluşturup e-postanızı kontrol edin.",
+      "en-US": "Activate account request expired! Please create new request and check your email inbox."
+    }
+  },
+  {
+    "Name": "activate_account_req_nf",
+    "LocalizedValue": {
+      "tr-TR": "Hesap aktifleştirme isteği bulunamadı!",
+      "en-US": "Activate account request not found!"
+    }
+  },
+  {
+    "Name": "activate_account_success",
+    "LocalizedValue": {
+      "tr-TR": "Hesap aktifleştirme başarılı.",
+      "en-US": "Activate account success."
+    }
+  },
+  {
+    "Name": "activate_account_failure",
+    "LocalizedValue": {
+      "tr-TR": "Hesap aktifleştirme başarısız!",
+      "en-US": "Activate account failure!"
+    }
+  },
+  {
+    "Name": "activate_account_email_title",
+    "LocalizedValue": {
+      "tr-TR": "Hesap Aktifleştirme",
+      "en-US": "Activate Account"
+    }
+  },
+  {
+    "Name": "activate_account_email_desc",
+    "LocalizedValue": {
+      "tr-TR": "Diyetisyen Sena Yaşar'a hoş geldiniz! Hesabınızı aktifleştirmek için aşağıdaki butona basın.",
+      "en-US": "Welcome to Dietitian Sena Yaşar! Press the button below to activate your account."
+    }
+  },
+  {
+    "Name": "activate_account_email_url_desc",
+    "LocalizedValue": {
+      "tr-TR": "Eğer buton çalışmıyorsa, aşağıdaki linki tarayıcınıza kopyalayabilirsiniz.",
+      "en-US": "If the button does not work, copy and paste the following link in your browser:"
+    }
+  },
+  {
+    "Name": "activate_account_email_btn_txt",
+    "LocalizedValue": {
+      "tr-TR": "Hesabımı Aktifleştir",
+      "en-US": "Actitave Account"
+    }
+  },
+  {
+    "Name": "submit",
+    "LocalizedValue": {
+      "tr-TR": "Gönder",
+      "en-US": "Submit"
+    }
+  }
+]

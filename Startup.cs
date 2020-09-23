@@ -88,7 +88,7 @@ namespace dytsenayasar
             services.AddSingleton<IRazorViewRenderer, RazorViewRenderer>();
             services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
             services.AddSingleton<IStringLocalizer, JsonStringLocalizer>();
-            
+
             services.AddCors();
             services.AddControllersWithViews().AddNewtonsoftJson(o =>
             {
@@ -127,7 +127,8 @@ namespace dytsenayasar
             });
 
             var corsOrigins = Configuration.GetSection("Cors:Origins").Get<string[]>();
-            app.UseCors(o => {
+            app.UseCors(o =>
+            {
                 o.WithOrigins(corsOrigins);
                 o.AllowAnyMethod();
                 o.AllowAnyHeader();
@@ -143,12 +144,14 @@ namespace dytsenayasar
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
-
-            app.UseSwaggerUI(q =>
+            if (env.IsDevelopment())
             {
-                q.SwaggerEndpoint("/swagger/v1/swagger.json", "Dyt Api V1");
-            });
+                app.UseDeveloperExceptionPage();
+
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/V1/swagger.json", "Api"));
+            }
         }
     }
 }

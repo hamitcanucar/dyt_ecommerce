@@ -16,7 +16,7 @@ namespace dytsenayasar.Util
         public static Task<HttpResponseMessage> PostAsJsonAsync(this HttpClient client, string url, string dataAsJsonStr)
         {
             var content = new StringContent(dataAsJsonStr);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            // content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return client.PostAsync(url, content);
         }
     }

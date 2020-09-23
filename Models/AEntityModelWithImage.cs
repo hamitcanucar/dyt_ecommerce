@@ -30,7 +30,6 @@ namespace dytsenayasar.Models
             if(!string.IsNullOrEmpty(img))
             {
                 Image = String.Format(FileController.IMAGE_URL, baseUrl, img);
-                Thumbnail = String.Format(FileController.THUMBNAIL_URL, baseUrl, img);
             }
         }
 

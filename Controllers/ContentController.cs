@@ -278,11 +278,11 @@ namespace dytsenayasar.Controllers
             [FromQuery] Guid? creatorId = null,
             [FromQuery] DateTime? minValidity = null,
             [FromQuery] DateTime? maxValidity = null,
-            [FromQuery] string contentTypes = null,
+            // [FromQuery] string contentTypes = null,
             [FromQuery] string title = null,
             [FromQuery] string description = null)
         {
-            var contentTypeList = contentTypes.SplitToEnum<ContentType>();
+            // var contentTypeList = contentTypes.SplitToEnum<ContentType>();
             var categoryIds = categories.SplitToInt();
 
             ICollection<ContentModel> result;
@@ -293,7 +293,7 @@ namespace dytsenayasar.Controllers
                 CreatorId = creatorId,
                 MinValidity = minValidity,
                 MaxValidity = maxValidity,
-                ContentType = contentTypeList.ToList(),
+                // ContentType = contentTypeList.ToList(),
                 Title = title,
                 Description = description
             };

@@ -10,7 +10,7 @@ namespace dytsenayasar.Models
         public  Guid? CreatorId { get; set; }
         public DateTime? MinValidity { get; set; }
         public DateTime? MaxValidity { get; set; }
-        public ICollection<ContentType> ContentType { get; set; }
+        // public ICollection<ContentType> ContentType { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }

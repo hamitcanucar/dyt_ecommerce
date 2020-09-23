@@ -14,7 +14,7 @@ using dytsenayasar.Models.ControllerModels;
 using dytsenayasar.Models.Settings;
 using dytsenayasar.Services.Abstract;
 using dytsenayasar.Util;
-using ContentType = dytsenayasar.DataAccess.Entities.ContentType;
+// using ContentType = dytsenayasar.DataAccess.Entities.ContentType;
 
 namespace dytsenayasar.Controllers
 {
@@ -24,7 +24,6 @@ namespace dytsenayasar.Controllers
     {
         public const string FILE_URL = "{0}/file/{1}";
         public const string IMAGE_URL = "{0}/file/image/{1}";
-        public const string THUMBNAIL_URL = "{0}/file/thumbnail/{1}";
 
         private readonly IFileManager _fileManager;
         private readonly IFileTypeChecker _fileTypeChecker;
@@ -175,7 +174,7 @@ namespace dytsenayasar.Controllers
             if (file != null)
             {
                 fileStream = file.OpenReadStream();
-                if (!await CheckFileType(fileStream, content.ContentType)) return CreateWrongFileError(content.ContentType);
+                // if (!await CheckFileType(fileStream, content.ContentType)) return CreateWrongFileError(content.ContentType);
             }
 
             if (imgStream != null)
@@ -238,6 +237,7 @@ namespace dytsenayasar.Controllers
         {
             return UploadProfileImage(GetUserIdFromToken(), image);
         }
+        
         [NonAction]
         private async Task<GenericResponse<string>> UploadProfileImage(Guid userId, IFormFile image)
         {
@@ -262,6 +262,7 @@ namespace dytsenayasar.Controllers
 
             return new GenericResponse<string> { Success = true };
         }
+
         [NonAction]
         private async Task<GenericResponse<string>> UploadImage(IFormFile image)
         {
@@ -287,11 +288,13 @@ namespace dytsenayasar.Controllers
 
             return new GenericResponse<string> { Success = true, Data = imgName };
         }
+
         [NonAction]
         private void DeleteOldImage(Guid? imgId)
         {
             if (imgId.HasValue) _ = _fileManager.DeleteImage(imgId.Value.ToString());
         }
+
         [NonAction]
         private GenericResponse<string> ReturnUploadFileWithImageResult(String imageName, FileManagerStatus imgStatus,
                     String fileName, FileManagerStatus fileStatus)
@@ -319,6 +322,7 @@ namespace dytsenayasar.Controllers
             }
 
         }
+
         [NonAction]
         private GenericResponse<string> returnFileWriteError(FileManagerStatus fileStatus, string fileName)
         {
@@ -338,6 +342,7 @@ namespace dytsenayasar.Controllers
 
             }
         }
+
         [NonAction]
         private GenericResponse<string> returnImageWriteError(FileManagerStatus imgStatus, string imageName)
         {
@@ -374,12 +379,12 @@ namespace dytsenayasar.Controllers
             return validSignature == signature;
         }
 
-        [NonAction]
-        private Task<bool> CheckFileType(Stream stream, ContentType contentType)
-        {
-            return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
-        }
-        
+        // [NonAction]
+        // private Task<bool> CheckFileType(Stream stream, ContentType contentType)
+        // {
+        //     return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
+        // }
+
         [NonAction]
         private Task<bool> CheckImageType(Stream stream)
         {
@@ -396,16 +401,16 @@ namespace dytsenayasar.Controllers
             };
         }
 
-        [NonAction]
-        private GenericResponse<string> CreateWrongFileError(ContentType contentType)
-        {
-            var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
+        // [NonAction]
+        // private GenericResponse<string> CreateWrongFileError(ContentType contentType)
+        // {
+        //     var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
 
-            return new GenericResponse<string>
-            {
-                Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
-                Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
-            };
-        }
+        //     return new GenericResponse<string>
+        //     {
+        //         Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
+        //         Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
+        //     };
+        // }
     }
 }

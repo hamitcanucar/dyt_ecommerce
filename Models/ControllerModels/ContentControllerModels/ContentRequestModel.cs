@@ -20,7 +20,7 @@ namespace dytsenayasar.Models.ControllerModels.ContentControllerModels
         [Range(0.0d, double.MaxValue)]
         public double? Price { get; set; }
         public DateTime? ValidityDate { get; set; }
-        public ContentType ContentType { get; set; }
+        // public ContentType ContentType { get; set; }
 
         public ICollection<int> Categories { get; set; }
 
@@ -31,7 +31,7 @@ namespace dytsenayasar.Models.ControllerModels.ContentControllerModels
                 Title = Title,
                 Description = Description,
                 ValidityDate = ValidityDate,
-                ContentType = ContentType,
+                // ContentType = ContentType,
                 CategoryIds = Categories
             };
             return contentModel;
