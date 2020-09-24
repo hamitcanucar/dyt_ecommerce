@@ -33,7 +33,7 @@ namespace dytsenayasar.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime? ValidityDate { get; set; }
-        // public ContentType? ContentType { get; set; }
+        public ContentTypes? ContentType { get; set; }
         public bool Taken { get; set; }
 
         public ICollection<int> CategoryIds { get; set; }

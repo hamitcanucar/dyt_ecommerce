@@ -33,7 +33,7 @@ namespace dytsenayasar.Controllers
         }
         
         [Route("resetPassword")]
-        
+        [NonAction]
         public async Task<IActionResult> ResetPassword([FromQuery(Name = "id")] Guid requestId, [FromQuery(Name = "token")] string token)
         {
             var requestExists = await _userRequestService.CheckRequestExists(requestId, token);
@@ -58,10 +58,10 @@ namespace dytsenayasar.Controllers
         public async Task<IActionResult> ResetPassword([FromQuery(Name = "id")] Guid requestId,
             [FromQuery(Name = "token")] string token, ResetPasswordModel model)
         {
-            // if (!ModelState.IsValid)
-            // {
-            //     return await ResetPassword(requestId, token);
-            // }
+            if (!ModelState.IsValid)
+            {
+                return await ResetPassword(requestId, token);
+            }
 
             ViewData["show_form"] = false;
             var ur = await _userRequestService.GetRequest(requestId, token, UserRequestType.PasswordReset);

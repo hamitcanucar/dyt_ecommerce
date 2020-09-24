@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace dytsenayasar.DataAccess.Entities
 {
-    // public enum ContentType { Any, Pdf, Epub, Png, Mp4, Doc, Docx }
+    public enum ContentTypes { Any, Pdf, Epub, Png, Mp4, Doc, Docx }
 
     public class Content : AEntity, IEntityWithImage, IEntityWithFile
     {
@@ -15,7 +15,7 @@ namespace dytsenayasar.DataAccess.Entities
         public Guid? Image { get; set; }
         public Guid? File { get; set; }
         public DateTime ValidityDate { get; set; }
-        // public ContentType ContentType { get; set; }
+        public ContentTypes ContentType { get; set; }
         
         public Guid CreatorId { get; set; }
         public User Creator { get; set; }
@@ -46,8 +46,8 @@ namespace dytsenayasar.DataAccess.Entities
                 .HasColumnName("validity_date");
             builder.Property(c => c.CreatorId)
                 .HasColumnName("creator_id");
-            // builder.Property(c => c.ContentType)
-            //     .HasColumnName("content_type");
+            builder.Property(c => c.ContentType)
+                .HasColumnName("content_type");
             builder.Property(c => c.File)
                 .HasColumnName("file");
         }

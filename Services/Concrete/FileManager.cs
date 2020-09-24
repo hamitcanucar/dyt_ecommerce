@@ -43,16 +43,6 @@ namespace dytsenayasar.Services.Concrete
             return OpenFileStream(_settings.ImagePath, fileName);
         }
 
-        public Task<FileManagerResult> ReadThumbnailImage(string fileName)
-        {
-            return ReadFile(_settings.ImagePath, fileName + THUMBNAIL_POSTFIX);
-        }
-
-        public FileManagerResult OpenThumbnailImageStream(string fileName)
-        {
-            return OpenFileStream(_settings.ImagePath, fileName + THUMBNAIL_POSTFIX);
-        }
-
         public async Task<FileManagerResult> ReadFile(string path, string fileName)
         {
             var result = new FileManagerResult { Name = fileName };
@@ -119,32 +109,6 @@ namespace dytsenayasar.Services.Concrete
         public Task<FileManagerResult> WriteImage(string fileName, Stream data)
         {
             return WriteFile(_settings.ImagePath, fileName, _settings.MaxImageSizeInMB, data);
-        }
-
-        public async Task<FileManagerResult> CreateThumbnailImage(string imgName)
-        {
-            var result = new FileManagerResult { Name = imgName + THUMBNAIL_POSTFIX };
-            var path = Path.Combine(_settings.ImagePath, imgName);
-
-            if (!File.Exists(path))
-            {
-                result.Status = FileManagerStatus.FileNotFound;
-                return result;
-            }
-
-            return await Task.Factory.StartNew(() =>
-            {
-                using (var image = Image.Load(path))
-                {
-                    int w, h;
-                    ScaleImageSize(image.Width, image.Height, _settings.ThumbnailImagePixel, out w, out h);
-                    image.Mutate(x => x.Resize(w, h));
-
-                    image.Save(Path.Combine(_settings.ImagePath, result.Name), new JpegEncoder() { Quality = _settings.ThumbnailImageQuality });
-                    result.Status = FileManagerStatus.Completed;
-                }
-                return result;
-            });
         }
 
         public async Task<FileManagerResult> WriteFile(string path, string fileName, int maxSizeMB, Stream data)

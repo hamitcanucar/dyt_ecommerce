@@ -14,7 +14,7 @@ using dytsenayasar.Models.ControllerModels;
 using dytsenayasar.Models.Settings;
 using dytsenayasar.Services.Abstract;
 using dytsenayasar.Util;
-// using ContentType = dytsenayasar.DataAccess.Entities.ContentType;
+using ContentType = dytsenayasar.DataAccess.Entities.ContentTypes;
 
 namespace dytsenayasar.Controllers
 {
@@ -61,8 +61,7 @@ namespace dytsenayasar.Controllers
             }
             else
             {
-                fileIsAvailable = CheckSignature(id) ?
-                    await _contentDeliveryService.CheckContentFileAvailableForUser(id, userId) : false;
+                fileIsAvailable = await _contentDeliveryService.CheckContentFileAvailableForUser(id, userId);
             }
 
             if (fileIsAvailable)
@@ -102,33 +101,13 @@ namespace dytsenayasar.Controllers
             return NoContent();
         }
 
-        [HttpGet]
-        [Route("thumbnail/{id}")]
-        [Authorize]
-        public IActionResult GetThumbnail(Guid id)
-        {
-            var fileName = id.ToString();
-            var result = _fileManager.OpenThumbnailImageStream(fileName);
-
-            if (result.Status == FileManagerStatus.Completed)
-            {
-                return File(result.Stream, MediaTypeNames.Image.Jpeg);
-            }
-
-            if (result.Status != FileManagerStatus.FileNotFound)
-            {
-                _logger.LogError("Thumbnail({0}) does not available: {1}", fileName, result.Status.ToString());
-            }
-            return NoContent();
-        }
-
         [HttpPost]
         [Route("content/{id}/files")]
         [Authorize(Roles = Role.ADMIN)]
         [DisableRequestSizeLimit]
-        public async Task<GenericResponse<string>> UploadContentFiles(Guid id, [FromForm] IFormFile image, [FromForm] IFormFile file)
+        public async Task<GenericResponse<string>> UploadContentFiles(Guid id, [FromForm] IFormFile file)
         {
-            if (image == null && file == null)
+             if ( file == null)
             {
                 return new GenericResponse<string>
                 {
@@ -157,33 +136,16 @@ namespace dytsenayasar.Controllers
                 };
             }
 
-            Guid? imageId = Guid.NewGuid();
-            var imageName = imageId.Value.ToString();
             Guid? fileId = Guid.NewGuid();
             var fileName = fileId.Value.ToString();
 
             var tasks = new List<Task<FileManagerResult>>();
-            Stream imgStream = null, fileStream = null;
-
-            if (image != null)
-            {
-                imgStream = image.OpenReadStream();
-                if (!await CheckImageType(imgStream)) return CreateWrongImageError();
-            }
+            Stream fileStream = null;
 
             if (file != null)
             {
                 fileStream = file.OpenReadStream();
-                // if (!await CheckFileType(fileStream, content.ContentType)) return CreateWrongFileError(content.ContentType);
-            }
-
-            if (imgStream != null)
-            {
-                tasks.Add(_fileManager.WriteImage(imageName, imgStream));
-            }
-            else
-            {
-                imageId = null;
+                if (!await CheckFileType(fileStream,content.ContentType)) return CreateWrongFileError(content.ContentType);
             }
 
             if (fileStream != null)
@@ -196,34 +158,18 @@ namespace dytsenayasar.Controllers
             }
 
             var fileManagerResults = await Task.WhenAll(tasks);
-            FileManagerResult imgResult = fileManagerResults.SingleOrDefault(x => x.Name == imageName)
-                ?? new FileManagerResult { Status = FileManagerStatus.Completed };
             FileManagerResult fileResult = fileManagerResults.SingleOrDefault(x => x.Name == fileName)
                 ?? new FileManagerResult { Status = FileManagerStatus.Completed };
 
-            var result = ReturnUploadFileWithImageResult(imageName, imgResult.Status, fileName, fileResult.Status);
+            var result = ReturnUploadFileResult(fileName, fileResult.Status);
 
             if (result.Success)
             {
-                if (image != null && content.Image.HasValue)
-                {
-                    _ = _fileManager.DeleteImage(content.Image.Value.ToString());
-                }
                 if (file != null && content.File.HasValue)
                 {
                     _ = _fileManager.DeleteFile(content.File.Value.ToString());
                 }
-                result.Success = await _contentService.UpdateFileNames(content, imageId, fileId);
-
-                if (result.Success)
-                {
-                    _ = _fileManager.CreateThumbnailImage(imageName);
-                }
-                else
-                {
-                    _ = _fileManager.DeleteImage(imageName);
-                    _ = _fileManager.DeleteFile(fileName);
-                }
+                result.Success = await _contentService.UpdateFileNames(content, fileId);
             }
 
             return result;
@@ -284,7 +230,6 @@ namespace dytsenayasar.Controllers
             {
                 return returnImageWriteError(imgResult.Status, imgName);
             }
-            _ = _fileManager.CreateThumbnailImage(imgName);
 
             return new GenericResponse<string> { Success = true, Data = imgName };
         }
@@ -296,10 +241,10 @@ namespace dytsenayasar.Controllers
         }
 
         [NonAction]
-        private GenericResponse<string> ReturnUploadFileWithImageResult(String imageName, FileManagerStatus imgStatus,
+        private GenericResponse<string> ReturnUploadFileResult(
                     String fileName, FileManagerStatus fileStatus)
         {
-            if (fileStatus == FileManagerStatus.Completed && imgStatus == FileManagerStatus.Completed)
+            if (fileStatus == FileManagerStatus.Completed)
             {
                 return new GenericResponse<string>
                 {
@@ -308,13 +253,8 @@ namespace dytsenayasar.Controllers
             }
             else if (fileStatus != FileManagerStatus.Completed)
             {
-                _ = _fileManager.DeleteImage(imageName);
+                _ = _fileManager.DeleteImage(fileName);
                 return returnFileWriteError(fileStatus, fileName);
-            }
-            else if (imgStatus != FileManagerStatus.Completed)
-            {
-                _ = _fileManager.DeleteFile(fileName);
-                return returnImageWriteError(imgStatus, imageName);
             }
             else
             {
@@ -363,27 +303,10 @@ namespace dytsenayasar.Controllers
         }
 
         [NonAction]
-        //Requires timestamp and signature headers
-        private bool CheckSignature(Guid fileId)
+        private Task<bool> CheckFileType(Stream stream, ContentType contentType)
         {
-            long timestamp;
-            var timeInterval = 10800000;//3 Hours
-            string signature = Request.Headers["signature"];
-            var currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-            if (!long.TryParse(Request.Headers["timestamp"], out timestamp)) return false;
-
-            if (Math.Abs(timestamp - currentTime) > timeInterval) return false;
-
-            var validSignature = (fileId.ToString() + timestamp).HashToHmac256(_appSettings.FileRequestSecret);
-            return validSignature == signature;
+            return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
         }
-
-        // [NonAction]
-        // private Task<bool> CheckFileType(Stream stream, ContentType contentType)
-        // {
-        //     return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
-        // }
 
         [NonAction]
         private Task<bool> CheckImageType(Stream stream)
@@ -401,16 +324,16 @@ namespace dytsenayasar.Controllers
             };
         }
 
-        // [NonAction]
-        // private GenericResponse<string> CreateWrongFileError(ContentType contentType)
-        // {
-        //     var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
+        [NonAction]
+        private GenericResponse<string> CreateWrongFileError(ContentType contentType)
+        {
+            var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
 
-        //     return new GenericResponse<string>
-        //     {
-        //         Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
-        //         Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
-        //     };
-        // }
+            return new GenericResponse<string>
+            {
+                Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
+                Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
+            };
+        }
     }
 }

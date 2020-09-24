@@ -128,10 +128,9 @@ namespace dytsenayasar.Services.Concrete
             return (await _context.Categories.Where(c => categories.Contains(c.ID)).CountAsync()) < categories.Count;
         }
 
-        public async Task<bool> UpdateFileNames(Content content, Guid? image, Guid? file)
+        public async Task<bool> UpdateFileNames(Content content, Guid? file)
         {
             var e = _context.Contents.Attach(content);
-            e.Entity.Image = image ?? e.Entity.Image;
             e.Entity.File = file ?? e.Entity.File;
 
             var result = await _context.SaveChangesAsync();

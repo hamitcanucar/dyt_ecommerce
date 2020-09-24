@@ -31,11 +31,10 @@ namespace dytsenayasar.Services.Concrete
             }
 
             var query = from c in contentQuery.Include(x => x.ContentCategories).ThenInclude(x => x.Category)
-                        from uc in c.UserContents.OrderBy(x => x.DeliveryType).Where(x => x.UserId == userId && x.ValidityDate > DateTime.UtcNow).Take(1)
+                        from uc in c.UserContents.Where(x => x.UserId == userId && x.ValidityDate > DateTime.UtcNow).Take(1)
                         select new UserContent
                         {
                             ID = uc.ID,
-                            DeliveryType = uc.DeliveryType,
                             ValidityDate = uc.ValidityDate,
                             ContentId = uc.ContentId,
                             Content = c

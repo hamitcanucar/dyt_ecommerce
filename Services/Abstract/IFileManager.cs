@@ -23,9 +23,6 @@ namespace dytsenayasar.Services.Abstract
     {
         Task<FileManagerResult> WriteFile(string fileName, Stream data);
         Task<FileManagerResult> WriteImage(string fileName, Stream data);
-        Task<FileManagerResult> CreateThumbnailImage(string imgName);
-        Task<FileManagerResult> ReadThumbnailImage(string fileName);
-        FileManagerResult OpenThumbnailImageStream(string fileName);
         Task<FileManagerResult> ReadFile(string fileName);
         FileManagerResult OpenFileStream(string fileName);
         Task<FileManagerResult> ReadImage(string fileName);

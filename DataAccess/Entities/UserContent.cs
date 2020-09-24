@@ -5,13 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace dytsenayasar.DataAccess.Entities
 {
-    public enum DeliveryType { Optional, Mandatory }
 
     public class UserContent : AEntity
     {
         public Guid UserId { get; set; }
         public User User { get; set; }
-        public DeliveryType DeliveryType { get; set; }
         public DateTime ValidityDate { get; set; }
 
         public Guid ContentId { get; set; }
@@ -29,9 +27,6 @@ namespace dytsenayasar.DataAccess.Entities
         {
             base.Configure(builder);
 
-            builder.HasIndex(uc => uc.DeliveryType)
-                .HasMethod("hash");
-
             builder.HasOne<User>(uc => uc.User)
                 .WithMany(u => u.UserContents)
                 .HasForeignKey(uc => uc.UserId);
@@ -45,14 +40,6 @@ namespace dytsenayasar.DataAccess.Entities
                 .HasColumnName("user_id");
             builder.Property(uc => uc.ContentId)
                 .HasColumnName("content_id");
-            builder.Property(uc => uc.DeliveryType)
-                .HasColumnName("delivery_type")
-                .HasColumnType("varchar(16)")
-                .HasDefaultValue(DeliveryType.Optional)
-                .HasConversion(
-                    d => d.ToString(),
-                    d => (DeliveryType)Enum.Parse(typeof(DeliveryType), d)
-                );
         }
     }
 }
