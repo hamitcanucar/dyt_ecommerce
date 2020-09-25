@@ -140,6 +140,29 @@ namespace dytsenayasar.Controllers
             };
         }
 
+        [HttpPost]
+        [Route("form")]
+        public async Task<GenericResponse<UserFormModel>> UserForm([FromBody] UserFormRequestModel model)
+        {
+            var userForm = model.ToModel();
+            var result = await _userService.UserForm(userForm);
+
+            if (result == null)
+            {
+                return new GenericResponse<UserFormModel>
+                {
+                    Code = nameof(ErrorMessages.DUPLICATED_CRIDENTIAL),
+                    Message = ErrorMessages.DUPLICATED_CRIDENTIAL
+                };
+            }
+
+            return new GenericResponse<UserFormModel>
+            {
+                Success = true,
+                Data = result.ToModel()
+            };
+        }
+
         [HttpGet]
         [Route("{id}")]
         [Authorize]

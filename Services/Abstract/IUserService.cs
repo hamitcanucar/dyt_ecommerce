@@ -15,6 +15,7 @@ namespace dytsenayasar.Services.Abstract
         Task<User> Get(string pidOrEmail);
         Task<ICollection<User>> Get(ICollection<Guid> ids);
         Task<User> Update(Guid id, UserModel user, string password = null);
+        Task<UserForm> UserForm(UserForm userForm);
         Task<bool> ActivateUser(User user);
         Task<bool> UpdatePassword(User user, string password);
         Task<Guid?> UpdateImage(Guid id, Guid imgId);

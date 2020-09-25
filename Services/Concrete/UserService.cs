@@ -82,6 +82,20 @@ namespace dytsenayasar.Services.Concrete
             return user;
         }
 
+        public async Task<UserForm> UserForm(UserForm userForm)
+        {
+            var result = await _context.UserForms.AnyAsync(u => u.User.PersonalId == userForm.User.PersonalId || u.User.Email == userForm.User.Email);
+
+            if (result)
+            {
+                return null;
+            }
+
+            _context.Add(userForm);
+            await _context.SaveChangesAsync();
+            return userForm;
+        }
+
         public async Task<User> Get(Guid id)
         {
             var query = from u in _context.Users
