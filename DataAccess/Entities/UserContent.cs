@@ -11,7 +11,6 @@ namespace dytsenayasar.DataAccess.Entities
         public Guid UserId { get; set; }
         public User User { get; set; }
         public DateTime ValidityDate { get; set; }
-
         public Guid ContentId { get; set; }
         public Content Content { get; set; }
     }

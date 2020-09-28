@@ -13,6 +13,7 @@ using System.Linq;
 using System.Collections.Generic;
 using dytsenayasar.Services.Abstract;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace dytsenayasar.Services.Concrete
 {
@@ -79,17 +80,16 @@ namespace dytsenayasar.Services.Concrete
 
             _context.Add(user);
             await _context.SaveChangesAsync();
+            
+            string path = @"C:\Users\h.ucar\Documents\dytsenayasar\Documents\" + user.FirstName + "" + user.LastName;
+            DirectoryInfo di = Directory.CreateDirectory(path);
+
             return user;
         }
 
-        public async Task<UserForm> UserForm(UserForm userForm)
+        public async Task<UserForm> UserForm(UserForm userForm, Guid id)
         {
-            var result = await _context.UserForms.AnyAsync(u => u.User.PersonalId == userForm.User.PersonalId || u.User.Email == userForm.User.Email);
-
-            if (result)
-            {
-                return null;
-            }
+            userForm.UserId = id;
 
             _context.Add(userForm);
             await _context.SaveChangesAsync();

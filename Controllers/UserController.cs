@@ -142,10 +142,12 @@ namespace dytsenayasar.Controllers
 
         [HttpPost]
         [Route("form")]
+        [Authorize]
         public async Task<GenericResponse<UserFormModel>> UserForm([FromBody] UserFormRequestModel model)
         {
+            var userId = GetUserIdFromToken();
             var userForm = model.ToModel();
-            var result = await _userService.UserForm(userForm);
+            var result = await _userService.UserForm(userForm, userId);
 
             if (result == null)
             {

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Localization;
 using dytsenayasar.Util.RazorViewRenderer;
 using Microsoft.Extensions.Localization;
 using dytsenayasar.Util.JsonLocalizer;
+using dytsenayasar.Util.BackgroundQueueWorker;
 
 namespace dytsenayasar
 {
@@ -88,6 +89,12 @@ namespace dytsenayasar
             services.AddSingleton<IRazorViewRenderer, RazorViewRenderer>();
             services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
             services.AddSingleton<IStringLocalizer, JsonStringLocalizer>();
+
+            services.AddHttpClient<INotificationService, NotificationService>();
+
+            //Background Worker Dependencies
+            services.AddSingleton<IBackgroundWorkHelper, BackgroundWorkHelper>();
+            services.AddHostedService<BackgroundWorker>();
 
             services.AddCors();
             services.AddControllersWithViews().AddNewtonsoftJson(o =>
