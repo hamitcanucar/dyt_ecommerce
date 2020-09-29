@@ -137,6 +137,15 @@ namespace dytsenayasar.Services.Concrete
             return result > 0;
         }
 
+        public async Task<bool> UpdateImageNames(Content content, Guid? image)
+        {
+            var e = _context.Contents.Attach(content);
+            e.Entity.Image = image ?? e.Entity.Image;
+
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
+
         public async Task<Content> Get(Guid id)
         {
             return await _context.Contents.AsNoTracking().FirstOrDefaultAsync(x => x.ID == id);

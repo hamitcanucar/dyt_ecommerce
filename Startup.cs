@@ -20,6 +20,8 @@ using dytsenayasar.Util.RazorViewRenderer;
 using Microsoft.Extensions.Localization;
 using dytsenayasar.Util.JsonLocalizer;
 using dytsenayasar.Util.BackgroundQueueWorker;
+using dytsenayasar.Models.Settings;
+using System.IO;
 
 namespace dytsenayasar
 {
@@ -35,6 +37,31 @@ namespace dytsenayasar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            var appsettings = appSettingsSection.Get<AppSettings>();
+            services.Configure<AppSettings>(appSettingsSection);
+            
+            var emailManagerSection = Configuration.GetSection("EmailManager");
+            services.Configure<EmailManagerSettings>(emailManagerSection);
+
+            var fileManagerSection = Configuration.GetSection("FileManager");
+            var fileManagerSettings = fileManagerSection.Get<FileManagerSettings>();
+            services.Configure<FileManagerSettings>(fileManagerSection);
+
+            if (!File.Exists(fileManagerSettings.FilePath))
+            {
+                Directory.CreateDirectory(fileManagerSettings.FilePath);
+            }
+            if (!File.Exists(fileManagerSettings.ImagePath))
+            {
+                Directory.CreateDirectory(fileManagerSettings.ImagePath);
+            }
+
+            services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(opt =>
+            {
+                opt.MultipartBodyLengthLimit = fileManagerSettings.MaxFileSizeInMB * 1024 * 1024;
+            });
+            
             services.AddControllers();
 
             services.AddSwaggerGen(c =>

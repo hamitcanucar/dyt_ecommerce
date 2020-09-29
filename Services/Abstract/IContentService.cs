@@ -15,6 +15,7 @@ namespace dytsenayasar.Services.Abstract
         Task<Content> DeleteCategory(Guid contentId, ICollection<int> categoryIds);
         Task<int> RemoveCategories(ICollection<int> categories);
         Task<bool> UpdateFileNames(Content content, Guid? file);
+        Task<bool> UpdateImageNames(Content content, Guid? image);
         Task<Content> Get(Guid id);
         Task<ICollection<Category>> GetAllCategories();
         Task<Content> GetUserContent(Guid id, Guid userId);

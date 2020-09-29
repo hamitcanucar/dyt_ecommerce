@@ -2,19 +2,19 @@ namespace dytsenayasar.Models.Settings
 {
     public class FileManagerSettings
     {
-        private int thumbnailImageQuality;
+        private int imageQuality;
 
         public string FilePath { get; set; }
         public string ImagePath { get; set; }
         public int MaxFileSizeInMB { get; set; }
         public int MaxImageSizeInMB { get; set; }
-        public int ThumbnailImagePixel { get; set; }
-        public int ThumbnailImageQuality
+        public int ImagePixel { get; set; }
+        public int ImageQuality
         {
-            get { return thumbnailImageQuality; }
+            get { return imageQuality; }
             set
             {
-                thumbnailImageQuality = (value <= 0 || value > 100) ? 75 : value;
+                imageQuality = (value <= 0 || value > 100) ? 75 : value;
             }
         }
     }

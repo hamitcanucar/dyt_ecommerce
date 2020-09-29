@@ -25,6 +25,7 @@ namespace dytsenayasar.Services.Abstract
         Task<FileManagerResult> WriteImage(string fileName, Stream data);
         Task<FileManagerResult> ReadFile(string fileName);
         FileManagerResult OpenFileStream(string fileName);
+        Task<FileManagerResult> CreateImage(string imgName);
         Task<FileManagerResult> ReadImage(string fileName);
         Task<FileManagerResult> ReadBytes(string fileName, int byteCount, int offset = 0, bool dispose = true);
         Task<FileManagerResult> ReadBytes(Stream data, int byteCount, int offset = 0, string fileName = null, bool dispose = true);

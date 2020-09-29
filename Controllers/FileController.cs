@@ -103,7 +103,7 @@ namespace dytsenayasar.Controllers
 
         [HttpPost]
         [Route("content/{id}/files")]
-        [Authorize(Roles = Role.ADMIN)]
+        [Authorize]
         [DisableRequestSizeLimit]
         public async Task<GenericResponse<string>> UploadContentFiles(Guid id, [FromForm] IFormFile file)
         {
@@ -115,26 +115,26 @@ namespace dytsenayasar.Controllers
                     Message = ErrorMessages.FILE_EMPTY
                 };
             }
-            Content content;
+            // Content content;
+            
+            // if (User.IsInRole(Role.ADMIN))
+            // {
+            //     content = await _contentService.Get(id);
+            // }
+            // else
+            // {
+            //     var userId = GetUserIdFromToken();
+            //     content = await _contentService.GetUserContent(id, userId);
+            // }
 
-            if (User.IsInRole(Role.ADMIN))
-            {
-                content = await _contentService.Get(id);
-            }
-            else
-            {
-                var userId = GetUserIdFromToken();
-                content = await _contentService.GetUserContent(id, userId);
-            }
-
-            if (content == null)
-            {
-                return new GenericResponse<string>
-                {
-                    Code = nameof(ErrorMessages.FILE_CONTENT_NOT_FOUND),
-                    Message = ErrorMessages.FILE_CONTENT_NOT_FOUND
-                };
-            }
+            // if (content == null)
+            // {
+            //     return new GenericResponse<string>
+            //     {
+            //         Code = nameof(ErrorMessages.FILE_CONTENT_NOT_FOUND),
+            //         Message = ErrorMessages.FILE_CONTENT_NOT_FOUND
+            //     };
+            // }
 
             Guid? fileId = Guid.NewGuid();
             var fileName = fileId.Value.ToString();
@@ -145,7 +145,7 @@ namespace dytsenayasar.Controllers
             if (file != null)
             {
                 fileStream = file.OpenReadStream();
-                if (!await CheckFileType(fileStream,content.ContentType)) return CreateWrongFileError(content.ContentType);
+                // if (!await CheckFileType(fileStream,content.ContentType)) return CreateWrongFileError(content.ContentType);
             }
 
             if (fileStream != null)
@@ -163,18 +163,89 @@ namespace dytsenayasar.Controllers
 
             var result = ReturnUploadFileResult(fileName, fileResult.Status);
 
-            if (result.Success)
-            {
-                if (file != null && content.File.HasValue)
-                {
-                    _ = _fileManager.DeleteFile(content.File.Value.ToString());
-                }
-                result.Success = await _contentService.UpdateFileNames(content, fileId);
-            }
+            // if (result.Success)
+            // {
+            //     result.Success = await _contentService.UpdateFileNames(content, fileId);
+            // }
 
             return result;
         }
 
+        [HttpPost]
+        [Route("content/{id}/images")]
+        [Authorize]
+        [DisableRequestSizeLimit]
+        public async Task<GenericResponse<string>> UploadContentImages(Guid id, [FromForm] IFormFile image)
+        {
+            if (image == null)
+            {
+                return new GenericResponse<string>
+                {
+                    Code = nameof(ErrorMessages.FILE_EMPTY),
+                    Message = ErrorMessages.FILE_EMPTY
+                };
+            }
+            Content content;
+
+            var userId = GetUserIdFromToken();
+            content = await _contentService.GetUserContent(id, userId);
+         
+            if (content == null)
+            {
+                return new GenericResponse<string>
+                {
+                    Code = nameof(ErrorMessages.FILE_CONTENT_NOT_FOUND),
+                    Message = ErrorMessages.FILE_CONTENT_NOT_FOUND
+                };
+            }
+
+            Guid? imageId = Guid.NewGuid();
+            var imageName = imageId.Value.ToString();
+
+            var tasks = new List<Task<FileManagerResult>>();
+            Stream imgStream = null;
+
+            if (image != null)
+            {
+                imgStream = image.OpenReadStream();
+                if (!await CheckImageType(imgStream)) return CreateWrongImageError();
+            }
+
+            if (imgStream != null)
+            {
+                tasks.Add(_fileManager.WriteImage(imageName, imgStream));
+            }
+            else
+            {
+                imageId = null;
+            }
+
+            var fileManagerResults = await Task.WhenAll(tasks);
+            FileManagerResult imgResult = fileManagerResults.SingleOrDefault(x => x.Name == imageName)
+                ?? new FileManagerResult { Status = FileManagerStatus.Completed };
+
+            var result = ReturnUploadImageResult(imageName, imgResult.Status);
+
+            if (result.Success)
+            {
+                if (image != null && content.Image.HasValue)
+                {
+                    _ = _fileManager.DeleteImage(content.Image.Value.ToString());
+                }
+                result.Success = await _contentService.UpdateImageNames(content, imageId);
+
+                if (result.Success)
+                {
+                    _ = _fileManager.CreateImage(imageName);
+                }
+                else
+                {
+                    _ = _fileManager.DeleteImage(imageName);
+                }
+            }
+            return result;
+        }
+        
         [HttpPost]
         [Route("user/image")]
         [Authorize]
@@ -253,12 +324,33 @@ namespace dytsenayasar.Controllers
             }
             else if (fileStatus != FileManagerStatus.Completed)
             {
-                _ = _fileManager.DeleteImage(fileName);
+                _ = _fileManager.DeleteFile(fileName);
                 return returnFileWriteError(fileStatus, fileName);
             }
             else
             {
                 return returnFileWriteError(fileStatus, fileName);
+            }
+
+        }
+
+        private GenericResponse<string> ReturnUploadImageResult(String imageName, FileManagerStatus imgStatus)
+        {
+            if (imgStatus == FileManagerStatus.Completed)
+            {
+                return new GenericResponse<string>
+                {
+                    Success = true
+                };
+            }
+            else if (imgStatus != FileManagerStatus.Completed)
+            {
+                _ = _fileManager.DeleteImage(imageName);
+                return returnImageWriteError(imgStatus, imageName);
+            }
+            else
+            {
+                return returnFileWriteError(imgStatus, imageName);
             }
 
         }
