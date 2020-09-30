@@ -22,7 +22,7 @@ namespace dytsenayasar.Controllers
     [Microsoft.AspNetCore.Mvc.ApiController]
     public class UserController : AController<UserController>
     {
-        private const string LOGO_NAME = "slib-logo.png";
+        private const string LOGO_NAME = "dyt-logo.png";
         private const string EMAIL_TEMPLATE = "Views/Emails/EmailWithConfirmButton.cshtml";
 
         private readonly IUserService _userService;

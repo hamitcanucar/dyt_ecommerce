@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using dytsenayasar.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,13 +12,10 @@ namespace dytsenayasar.DataAccess.Entities
         public string Description { get; set; }
         public Guid? Image { get; set; }
         public Guid? File { get; set; }
-        public DateTime ValidityDate { get; set; }
+        public DateTime UploadDate { get; set; }
         public ContentTypes ContentType { get; set; }
         
-        public Guid CreatorId { get; set; }
-        public User Creator { get; set; }
-        public ICollection<UserContent> UserContents { get; set; }
-        public ICollection<ContentCategory> ContentCategories { get; set; }
+        public User User { get; set; }
     }
 
     public class ContentEntityConfiguration : EntityConfiguration<Content>
@@ -42,10 +37,8 @@ namespace dytsenayasar.DataAccess.Entities
                 .HasColumnType("varchar(255)");
             builder.Property(c => c.Image)
                 .HasColumnName("image");
-            builder.Property(c => c.ValidityDate)
+            builder.Property(c => c.UploadDate)
                 .HasColumnName("validity_date");
-            builder.Property(c => c.CreatorId)
-                .HasColumnName("creator_id");
             builder.Property(c => c.ContentType)
                 .HasColumnName("content_type");
             builder.Property(c => c.File)

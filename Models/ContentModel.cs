@@ -39,43 +39,13 @@ namespace dytsenayasar.Models
         public ICollection<int> CategoryIds { get; set; }
         public IDictionary<int, string> Categories { get; set; }
 
-        public static ICollection<ContentCategory> ModelCategoriesToContentCategories(Guid contentId, ICollection<int> categories)
-        {
-            if (categories != null)
-            {
-                return categories.Select(c => new ContentCategory
-                {
-                    CategoryId = c,
-                    ContentId = contentId
-                }).ToList();
-            }
-            return null;
-        }
-
-        public static IDictionary<int, string> ConvertContentCategoryToDictionary(ICollection<Category> categories)
-        {
-            switch (CultureInfo.CurrentCulture.IetfLanguageTag)
-            {
-                case "tr-TR":
-                    return categories
-                        .Select(x => new { id = x.ID, name = x.Name_tr })
-                        .Distinct()
-                        .ToDictionary(x => x.id, x => x.name);
-                default:
-                    return categories
-                        .Select(x => new { id = x.ID, name = x.Name_en })
-                        .Distinct()
-                        .ToDictionary(x => x.id, x => x.name);
-            }
-        }
-
         public override Content ToEntity()
         {
             var content = new Content
             {
                 Title = Title,
                 Description = Description,
-                ValidityDate = ValidityDate ?? DateTime.MaxValue,
+                UploadDate = ValidityDate ?? DateTime.MaxValue,
             };
 
             return content;
@@ -90,17 +60,7 @@ namespace dytsenayasar.Models
             ID = entity.ID;
             Title = entity.Title;
             Description = entity.Description;
-            ValidityDate = entity.ValidityDate;
-
-            if (entity.ContentCategories != null)
-            {
-                Categories = ConvertContentCategoryToDictionary(entity.ContentCategories.Select(x => new Category
-                {
-                    ID = x.CategoryId,
-                    Name_en = x.Category?.Name_en,
-                    Name_tr = x.Category?.Name_tr
-                }).ToList());
-            }
+            ValidityDate = entity.UploadDate;
         }
     }
 

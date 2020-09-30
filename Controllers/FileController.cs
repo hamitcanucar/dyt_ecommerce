@@ -30,17 +30,16 @@ namespace dytsenayasar.Controllers
         private readonly FileManagerSettings _fileManagerSettings;
         private readonly AppSettings _appSettings;
         private readonly IContentService _contentService;
-        private readonly IContentDeliveryService _contentDeliveryService;
+        // private readonly IContentDeliveryService _contentDeliveryService;
         private readonly IUserService _userService;
 
-        public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IContentService contentService,
-            IContentDeliveryService contentDeliveryService, IUserService userService,
+        public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IContentService contentService, IUserService userService,
             ILogger<FileController> logger, IOptions<FileManagerSettings> fileManagerSettings, IOptions<AppSettings> appSettings) : base(logger)
         {
             _fileManager = fileManager;
             _fileTypeChecker = fileTypeChecker;
             _contentService = contentService;
-            _contentDeliveryService = contentDeliveryService;
+            // _contentDeliveryService = contentDeliveryService;
             _userService = userService;
             _fileManagerSettings = fileManagerSettings.Value;
             _appSettings = appSettings.Value;
@@ -61,7 +60,7 @@ namespace dytsenayasar.Controllers
             }
             else
             {
-                fileIsAvailable = await _contentDeliveryService.CheckContentFileAvailableForUser(id, userId);
+                fileIsAvailable = await _contentService.CheckContentFileAvailableForUser(id, userId);
             }
 
             if (fileIsAvailable)
@@ -105,7 +104,7 @@ namespace dytsenayasar.Controllers
         [Route("content/{id}/files")]
         [Authorize]
         [DisableRequestSizeLimit]
-        public async Task<GenericResponse<string>> UploadContentFiles(Guid id, [FromForm] IFormFile file)
+        public async Task<GenericResponse<string>> UploadContentFiles([FromForm] IFormFile file)
         {
              if ( file == null)
             {
@@ -115,26 +114,6 @@ namespace dytsenayasar.Controllers
                     Message = ErrorMessages.FILE_EMPTY
                 };
             }
-            // Content content;
-            
-            // if (User.IsInRole(Role.ADMIN))
-            // {
-            //     content = await _contentService.Get(id);
-            // }
-            // else
-            // {
-            //     var userId = GetUserIdFromToken();
-            //     content = await _contentService.GetUserContent(id, userId);
-            // }
-
-            // if (content == null)
-            // {
-            //     return new GenericResponse<string>
-            //     {
-            //         Code = nameof(ErrorMessages.FILE_CONTENT_NOT_FOUND),
-            //         Message = ErrorMessages.FILE_CONTENT_NOT_FOUND
-            //     };
-            // }
 
             Guid? fileId = Guid.NewGuid();
             var fileName = fileId.Value.ToString();
@@ -145,7 +124,6 @@ namespace dytsenayasar.Controllers
             if (file != null)
             {
                 fileStream = file.OpenReadStream();
-                // if (!await CheckFileType(fileStream,content.ContentType)) return CreateWrongFileError(content.ContentType);
             }
 
             if (fileStream != null)
@@ -162,11 +140,6 @@ namespace dytsenayasar.Controllers
                 ?? new FileManagerResult { Status = FileManagerStatus.Completed };
 
             var result = ReturnUploadFileResult(fileName, fileResult.Status);
-
-            // if (result.Success)
-            // {
-            //     result.Success = await _contentService.UpdateFileNames(content, fileId);
-            // }
 
             return result;
         }
@@ -232,7 +205,6 @@ namespace dytsenayasar.Controllers
                 {
                     _ = _fileManager.DeleteImage(content.Image.Value.ToString());
                 }
-                result.Success = await _contentService.UpdateImageNames(content, imageId);
 
                 if (result.Success)
                 {

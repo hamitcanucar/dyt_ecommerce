@@ -38,6 +38,7 @@ namespace dytsenayasar.DataAccess.Entities
         public UserClient Client { get; set; }
         public UserForm Form { get; set; }
         public ICollection<UserRequest> Requests { get; set; }
-        public ICollection<UserContent> UserContents { get; set; }
+        public ICollection<Content> Contents { get; set; }
+        // public ICollection<UserContent> UserContents { get; set; }
     }
 }

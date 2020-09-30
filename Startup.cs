@@ -40,7 +40,7 @@ namespace dytsenayasar
             var appSettingsSection = Configuration.GetSection("AppSettings");
             var appsettings = appSettingsSection.Get<AppSettings>();
             services.Configure<AppSettings>(appSettingsSection);
-            
+
             var emailManagerSection = Configuration.GetSection("EmailManager");
             services.Configure<EmailManagerSettings>(emailManagerSection);
 
@@ -107,7 +107,6 @@ namespace dytsenayasar
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IContentService, ContentService>();
-            services.AddScoped<IContentDeliveryService, ContentDeliveryService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
 
             services.AddSingleton<IFileManager, FileManager>();
