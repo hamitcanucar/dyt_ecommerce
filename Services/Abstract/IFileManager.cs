@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace dytsenayasar.Services.Abstract
 {
@@ -21,8 +23,7 @@ namespace dytsenayasar.Services.Abstract
 
     public interface IFileManager
     {
-        Task<FileManagerResult> WriteFile(string fileName, Stream data);
-        Task<FileManagerResult> WriteImage(string fileName, Stream data);
+        Task<FileManagerResult> WriteFile(Guid userId, IFormFile file);
         Task<FileManagerResult> ReadFile(string fileName);
         FileManagerResult OpenFileStream(string fileName);
         Task<FileManagerResult> CreateImage(string imgName);

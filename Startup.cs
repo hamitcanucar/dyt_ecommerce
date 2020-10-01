@@ -52,10 +52,6 @@ namespace dytsenayasar
             {
                 Directory.CreateDirectory(fileManagerSettings.FilePath);
             }
-            if (!File.Exists(fileManagerSettings.ImagePath))
-            {
-                Directory.CreateDirectory(fileManagerSettings.ImagePath);
-            }
 
             services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(opt =>
             {
@@ -108,9 +104,9 @@ namespace dytsenayasar
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IContentService, ContentService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
+            services.AddScoped<IFileManager, FileManager>();
+            services.AddScoped<IFileTypeChecker, FileTypeChecker>();
 
-            services.AddSingleton<IFileManager, FileManager>();
-            services.AddSingleton<IFileTypeChecker, FileTypeChecker>();
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IRazorViewRenderer, RazorViewRenderer>();
             services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();

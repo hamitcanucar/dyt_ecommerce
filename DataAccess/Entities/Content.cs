@@ -1,20 +1,18 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace dytsenayasar.DataAccess.Entities
 {
-    public enum ContentTypes { Any, Pdf, Epub, Png, Mp4, Doc, Docx }
 
-    public class Content : AEntity, IEntityWithImage, IEntityWithFile
+    public class Content : AEntity
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public Guid? Image { get; set; }
-        public Guid? File { get; set; }
-        public DateTime UploadDate { get; set; }
-        public ContentTypes ContentType { get; set; }
-        
+        public string Name { get; set; }
+        public string FileType { get; set; }
+        public byte[] DataFiles { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
     }
 
@@ -28,21 +26,24 @@ namespace dytsenayasar.DataAccess.Entities
         {
             base.Configure(builder);
 
-            builder.Property(c => c.Title)
-                .HasColumnName("title")
+            builder.Property(e => e.UserId)
+                   .HasColumnName("user_id")
+                   .IsRequired();
+            builder.HasOne(e => e.User)
+                   .WithMany(e => e.Contents)
+                   .HasForeignKey(e => e.UserId);
+
+            builder.Property(c => c.Name)
+                .HasColumnName("name")
                 .HasColumnType("varchar(128)")
                 .IsRequired();
-            builder.Property(c => c.Description)
-                .HasColumnName("description")
+            builder.Property(c => c.FileType)
+                .HasColumnName("file_type")
                 .HasColumnType("varchar(255)");
-            builder.Property(c => c.Image)
-                .HasColumnName("image");
-            builder.Property(c => c.UploadDate)
-                .HasColumnName("validity_date");
-            builder.Property(c => c.ContentType)
-                .HasColumnName("content_type");
-            builder.Property(c => c.File)
-                .HasColumnName("file");
+            builder.Property(c => c.CreatedOn)
+                .HasColumnName("created_on");
+            builder.Property(c => c.DataFiles)
+                .HasColumnName("data_files");
         }
     }
 }

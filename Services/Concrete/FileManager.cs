@@ -8,6 +8,9 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 using dytsenayasar.Models.Settings;
 using dytsenayasar.Services.Abstract;
+using Microsoft.AspNetCore.Http;
+using dytsenayasar.DataAccess.Entities;
+using dytsenayasar.Context;
 
 namespace dytsenayasar.Services.Concrete
 {
@@ -16,11 +19,13 @@ namespace dytsenayasar.Services.Concrete
         private const string THUMBNAIL_POSTFIX = "_thumb";
         private readonly ILogger _logger;
         private readonly FileManagerSettings _settings;
+        private readonly ApplicationDbContext _context;
 
-        public FileManager(ILogger<FileManager> logger, IOptions<FileManagerSettings> settings)
+        public FileManager(ILogger<FileManager> logger, IOptions<FileManagerSettings> settings, ApplicationDbContext context)
         {
             _logger = logger;
             _settings = settings.Value;
+            _context = context;
         }
 
         public Task<FileManagerResult> ReadFile(string fileName)
@@ -35,12 +40,12 @@ namespace dytsenayasar.Services.Concrete
 
         public Task<FileManagerResult> ReadImage(string fileName)
         {
-            return ReadFile(_settings.ImagePath, fileName);
+            return ReadFile(_settings.FilePath, fileName);
         }
 
         public FileManagerResult OpenImageStream(string fileName)
         {
-            return OpenFileStream(_settings.ImagePath, fileName);
+            return OpenFileStream(_settings.FilePath, fileName);
         }
 
         public async Task<FileManagerResult> ReadFile(string path, string fileName)
@@ -101,20 +106,60 @@ namespace dytsenayasar.Services.Concrete
             }
         }
 
-        public Task<FileManagerResult> WriteFile(string fileName, Stream data)
+        public async Task<FileManagerResult> WriteFile(Guid userId, IFormFile file)
         {
-            return WriteFile(_settings.FilePath, fileName, _settings.MaxFileSizeInMB, data);
-        }
+            var result = new FileManagerResult { Name = file.Name };
 
-        public Task<FileManagerResult> WriteImage(string fileName, Stream data)
-        {
-            return WriteFile(_settings.ImagePath, fileName, _settings.MaxImageSizeInMB, data);
+            if (file == null)
+            {
+                result.Status = FileManagerStatus.Completed;
+                return result;
+            }
+
+            if (file.Length / 1048576 > 100)
+            {
+                result.Status = FileManagerStatus.TooBigFile;
+                return result;
+            }
+
+            if (file != null)
+            {
+                if (file.Length > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    
+                    var fileExtension = Path.GetExtension(fileName);
+                    
+                    var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+
+                    var objfiles = new Content()
+                    {
+                        Name= newFileName,
+                        FileType = fileExtension,
+                        CreatedOn = DateTime.Now,
+                        UserId = userId,
+                    };
+                    
+                    using (var target = new MemoryStream())
+                    {
+                        file.CopyTo(target);
+                        objfiles.DataFiles = target.ToArray();
+                    }
+
+                    await _context.Contents.AddAsync(objfiles);
+                    await _context.SaveChangesAsync();
+                    
+                    result.Status = FileManagerStatus.Completed;
+                }
+                
+            }
+            return result;
         }
 
         public async Task<FileManagerResult> CreateImage(string imgName)
         {
             var result = new FileManagerResult { Name = imgName + THUMBNAIL_POSTFIX };
-            var path = Path.Combine(_settings.ImagePath, imgName);
+            var path = Path.Combine(_settings.FilePath, imgName);
 
             if (!File.Exists(path))
             {
@@ -130,51 +175,11 @@ namespace dytsenayasar.Services.Concrete
                     ScaleImageSize(image.Width, image.Height, _settings.ImagePixel, out w, out h);
                     image.Mutate(x => x.Resize(w, h));
 
-                    image.Save(Path.Combine(_settings.ImagePath, result.Name), new JpegEncoder() { Quality = 75 });
+                    image.Save(Path.Combine(_settings.FilePath, result.Name), new JpegEncoder() { Quality = 75 });
                     result.Status = FileManagerStatus.Completed;
                 }
                 return result;
             });
-        }
-
-        public async Task<FileManagerResult> WriteFile(string path, string fileName, int maxSizeMB, Stream data)
-        {
-            var result = new FileManagerResult { Name = fileName };
-
-            if (data == null)
-            {
-                result.Status = FileManagerStatus.Completed;
-                return result;
-            }
-
-            if (data.Length / 1048576 > maxSizeMB)
-            {
-                result.Status = FileManagerStatus.TooBigFile;
-                return result;
-            }
-
-            try
-            {
-                using (data)
-                {
-                    using (var file = new FileStream(Path.Combine(path, fileName),
-                        FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
-                    {
-                        await data.CopyToAsync(file);
-                    }
-                }
-                result.Status = FileManagerStatus.Completed;
-                return result;
-            }
-            catch (System.Security.SecurityException) { result.Status = FileManagerStatus.PermissionDenied; return result; }
-            catch (FileNotFoundException) { result.Status = FileManagerStatus.FileNotFound; return result; }
-            catch (DirectoryNotFoundException) { result.Status = FileManagerStatus.PathNotFound; return result; }
-            catch (System.Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                result.Status = FileManagerStatus.Failed;
-                return result;
-            }
         }
 
         public async Task<FileManagerResult> ReadBytes(string fileName, int byteCount, int offset = 0, bool dispose = true)
@@ -239,8 +244,7 @@ namespace dytsenayasar.Services.Concrete
 
         public async Task<FileManagerResult> DeleteImage(string fileName)
         {
-            var path = Path.Combine(_settings.ImagePath, fileName);
-            var pathThumb = Path.Combine(_settings.ImagePath, fileName + THUMBNAIL_POSTFIX);
+            var path = Path.Combine(_settings.FilePath, fileName);
             var result = new FileManagerResult { Name = fileName };
             if (!File.Exists(path))
             {
@@ -251,11 +255,6 @@ namespace dytsenayasar.Services.Concrete
             return await Task.Factory.StartNew(() =>
             {
                 File.Delete(path);
-
-                if (File.Exists(pathThumb))
-                {
-                    File.Delete(pathThumb);
-                }
                 result.Status = FileManagerStatus.Completed;
                 return result;
             });
@@ -271,5 +270,6 @@ namespace dytsenayasar.Services.Concrete
             w = (int)(width * ratio);
             h = (int)(height * ratio);
         }
+
     }
 }

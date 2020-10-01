@@ -3,9 +3,7 @@ namespace dytsenayasar.Models.Settings
     public class FileManagerSettings
     {
         private int imageQuality;
-
         public string FilePath { get; set; }
-        public string ImagePath { get; set; }
         public int MaxFileSizeInMB { get; set; }
         public int MaxImageSizeInMB { get; set; }
         public int ImagePixel { get; set; }

@@ -14,7 +14,6 @@ using dytsenayasar.Models.ControllerModels;
 using dytsenayasar.Models.Settings;
 using dytsenayasar.Services.Abstract;
 using dytsenayasar.Util;
-using ContentType = dytsenayasar.DataAccess.Entities.ContentTypes;
 
 namespace dytsenayasar.Controllers
 {
@@ -30,7 +29,6 @@ namespace dytsenayasar.Controllers
         private readonly FileManagerSettings _fileManagerSettings;
         private readonly AppSettings _appSettings;
         private readonly IContentService _contentService;
-        // private readonly IContentDeliveryService _contentDeliveryService;
         private readonly IUserService _userService;
 
         public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IContentService contentService, IUserService userService,
@@ -39,46 +37,45 @@ namespace dytsenayasar.Controllers
             _fileManager = fileManager;
             _fileTypeChecker = fileTypeChecker;
             _contentService = contentService;
-            // _contentDeliveryService = contentDeliveryService;
             _userService = userService;
             _fileManagerSettings = fileManagerSettings.Value;
             _appSettings = appSettings.Value;
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetFile(Guid id)
-        {
-            var fileName = id.ToString();
-            var userId = GetUserIdFromToken();
-            bool fileIsAvailable;
+        // [HttpGet]
+        // [Route("{id}")]
+        // [Authorize]
+        // public async Task<IActionResult> GetFile(Guid id)
+        // {
+        //     var fileName = id.ToString();
+        //     var userId = GetUserIdFromToken();
+        //     bool fileIsAvailable;
 
-            if (User.IsInRole(Role.ADMIN))
-            {
-                fileIsAvailable = true;
-            }
-            else
-            {
-                fileIsAvailable = await _contentService.CheckContentFileAvailableForUser(id, userId);
-            }
+        //     if (User.IsInRole(Role.ADMIN))
+        //     {
+        //         fileIsAvailable = true;
+        //     }
+        //     else
+        //     {
+        //         fileIsAvailable = await _contentService.CheckContentFileAvailableForUser(id, userId);
+        //     }
 
-            if (fileIsAvailable)
-            {
-                var result = _fileManager.OpenFileStream(fileName);
+        //     if (fileIsAvailable)
+        //     {
+        //         var result = _fileManager.OpenFileStream(fileName);
 
-                if (result.Status == FileManagerStatus.Completed)
-                {
-                    return File(result.Stream, MediaTypeNames.Application.Octet);
-                }
+        //         if (result.Status == FileManagerStatus.Completed)
+        //         {
+        //             return File(result.Stream, MediaTypeNames.Application.Octet);
+        //         }
 
-                if (result.Status != FileManagerStatus.FileNotFound)
-                {
-                    _logger.LogError("File({0}) does not available: {1}", fileName, result.Status.ToString());
-                }
-            }
-            return NoContent();
-        }
+        //         if (result.Status != FileManagerStatus.FileNotFound)
+        //         {
+        //             _logger.LogError("File({0}) does not available: {1}", fileName, result.Status.ToString());
+        //         }
+        //     }
+        //     return NoContent();
+        // }
 
         [HttpGet]
         [Route("image/{id}")]
@@ -101,7 +98,7 @@ namespace dytsenayasar.Controllers
         }
 
         [HttpPost]
-        [Route("content/{id}/files")]
+        [Route("files")]
         [Authorize]
         [DisableRequestSizeLimit]
         public async Task<GenericResponse<string>> UploadContentFiles([FromForm] IFormFile file)
@@ -115,41 +112,28 @@ namespace dytsenayasar.Controllers
                 };
             }
 
-            Guid? fileId = Guid.NewGuid();
-            var fileName = fileId.Value.ToString();
+            var userId = GetUserIdFromToken();
 
-            var tasks = new List<Task<FileManagerResult>>();
-            Stream fileStream = null;
-
-            if (file != null)
-            {
-                fileStream = file.OpenReadStream();
-            }
-
-            if (fileStream != null)
-            {
-                tasks.Add(_fileManager.WriteFile(fileName, fileStream));
-            }
-            else
-            {
-                fileId = null;
-            }
-
-            var fileManagerResults = await Task.WhenAll(tasks);
-            FileManagerResult fileResult = fileManagerResults.SingleOrDefault(x => x.Name == fileName)
-                ?? new FileManagerResult { Status = FileManagerStatus.Completed };
-
-            var result = ReturnUploadFileResult(fileName, fileResult.Status);
-
-            return result;
+            var result = await _fileManager.WriteFile(userId, file);
+            
+            return new GenericResponse<string> { Success = true };
         }
 
         [HttpPost]
-        [Route("content/{id}/images")]
+        [Route("images")]
         [Authorize]
         [DisableRequestSizeLimit]
-        public async Task<GenericResponse<string>> UploadContentImages(Guid id, [FromForm] IFormFile image)
+        public async Task<GenericResponse<string>> UploadContentImages([FromForm] IFormFile image)
         {
+            if ( image == null)
+            {
+                return new GenericResponse<string>
+                {
+                    Code = nameof(ErrorMessages.FILE_EMPTY),
+                    Message = ErrorMessages.FILE_EMPTY
+                };
+            }
+
             if (image == null)
             {
                 return new GenericResponse<string>
@@ -158,64 +142,12 @@ namespace dytsenayasar.Controllers
                     Message = ErrorMessages.FILE_EMPTY
                 };
             }
-            Content content;
 
             var userId = GetUserIdFromToken();
-            content = await _contentService.GetUserContent(id, userId);
-         
-            if (content == null)
-            {
-                return new GenericResponse<string>
-                {
-                    Code = nameof(ErrorMessages.FILE_CONTENT_NOT_FOUND),
-                    Message = ErrorMessages.FILE_CONTENT_NOT_FOUND
-                };
-            }
 
-            Guid? imageId = Guid.NewGuid();
-            var imageName = imageId.Value.ToString();
-
-            var tasks = new List<Task<FileManagerResult>>();
-            Stream imgStream = null;
-
-            if (image != null)
-            {
-                imgStream = image.OpenReadStream();
-                if (!await CheckImageType(imgStream)) return CreateWrongImageError();
-            }
-
-            if (imgStream != null)
-            {
-                tasks.Add(_fileManager.WriteImage(imageName, imgStream));
-            }
-            else
-            {
-                imageId = null;
-            }
-
-            var fileManagerResults = await Task.WhenAll(tasks);
-            FileManagerResult imgResult = fileManagerResults.SingleOrDefault(x => x.Name == imageName)
-                ?? new FileManagerResult { Status = FileManagerStatus.Completed };
-
-            var result = ReturnUploadImageResult(imageName, imgResult.Status);
-
-            if (result.Success)
-            {
-                if (image != null && content.Image.HasValue)
-                {
-                    _ = _fileManager.DeleteImage(content.Image.Value.ToString());
-                }
-
-                if (result.Success)
-                {
-                    _ = _fileManager.CreateImage(imageName);
-                }
-                else
-                {
-                    _ = _fileManager.DeleteImage(imageName);
-                }
-            }
-            return result;
+            var result = await _fileManager.WriteFile(userId, image);
+            
+            return new GenericResponse<string> { Success = true };
         }
         
         [HttpPost]
@@ -267,7 +199,8 @@ namespace dytsenayasar.Controllers
 
             var imgId = Guid.NewGuid();
             var imgName = imgId.ToString();
-            var imgResult = await _fileManager.WriteImage(imgName, stream);
+            var userId = GetUserIdFromToken();
+            var imgResult = await _fileManager.WriteFile(userId, image);
 
             if (imgResult.Status != FileManagerStatus.Completed)
             {
@@ -367,12 +300,6 @@ namespace dytsenayasar.Controllers
         }
 
         [NonAction]
-        private Task<bool> CheckFileType(Stream stream, ContentType contentType)
-        {
-            return _fileTypeChecker.IsFileTypeCorrect(stream, contentType.ToFileType());
-        }
-
-        [NonAction]
         private Task<bool> CheckImageType(Stream stream)
         {
             return _fileTypeChecker.IsFileTypeCorrect(stream, FileType.Image);
@@ -388,16 +315,5 @@ namespace dytsenayasar.Controllers
             };
         }
 
-        [NonAction]
-        private GenericResponse<string> CreateWrongFileError(ContentType contentType)
-        {
-            var fileDesc = contentType == ContentType.Any ? "null" : contentType.ToString();
-
-            return new GenericResponse<string>
-            {
-                Code = nameof(ErrorMessages.FILE_TYPE_WRONG),
-                Message = string.Format(ErrorMessages.FILE_TYPE_WRONG, fileDesc)
-            };
-        }
     }
 }

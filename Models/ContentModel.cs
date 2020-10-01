@@ -6,7 +6,7 @@ using dytsenayasar.DataAccess.Entities;
 
 namespace dytsenayasar.Models
 {
-    public class ContentModel : AEntityModelWithFile<Content, ContentModel>
+    public class ContentModel : AEntityModel<Content, ContentModel>
     {
         public ContentModel(){}
 
@@ -15,26 +15,11 @@ namespace dytsenayasar.Models
             SetValuesFromEntity(entity);
         }
 
-        public ContentModel(string baseUrl, Content entity)
-        {
-            SetValuesFromEntity(baseUrl, entity);
-        }
-
-        public ContentModel(Content entity, bool taken) : this(entity)
-        {
-            Taken = taken;
-        }
-
-        public ContentModel(Content entity, bool taken, string baseUrl) : this(baseUrl, entity)
-        {
-            Taken = taken;
-        }
-
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime? ValidityDate { get; set; }
-        public ContentTypes? ContentType { get; set; }
-        public bool Taken { get; set; }
+        public string Name { get; set; }
+        public string FileType { get; set; }
+        public byte[] DataFiles { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public User User { get; set; }
 
         public ICollection<int> CategoryIds { get; set; }
         public IDictionary<int, string> Categories { get; set; }
@@ -43,9 +28,10 @@ namespace dytsenayasar.Models
         {
             var content = new Content
             {
-                Title = Title,
-                Description = Description,
-                UploadDate = ValidityDate ?? DateTime.MaxValue,
+                Name = Name,
+                FileType = FileType,
+                CreatedOn = CreatedOn ?? DateTime.MaxValue,
+                DataFiles = DataFiles,
             };
 
             return content;
@@ -58,9 +44,10 @@ namespace dytsenayasar.Models
             base.SetValuesFromEntity(entity);
 
             ID = entity.ID;
-            Title = entity.Title;
-            Description = entity.Description;
-            ValidityDate = entity.UploadDate;
+            Name = entity.Name;
+            FileType = entity.FileType;
+            CreatedOn = entity.CreatedOn;
+            DataFiles = entity.DataFiles;
         }
     }
 
@@ -70,13 +57,6 @@ namespace dytsenayasar.Models
         {
             var model = new ContentModel();
             model.SetValuesFromEntity(entity);
-            return model;
-        }
-
-        public static ContentModel ToModel(this Content entity, string baseUrl)
-        {
-            var model = new ContentModel();
-            model.SetValuesFromEntity(baseUrl, entity);
             return model;
         }
     }

@@ -80,9 +80,6 @@ namespace dytsenayasar.Services.Concrete
 
             _context.Add(user);
             await _context.SaveChangesAsync();
-            
-            string path = @"C:\Users\h.ucar\Documents\dytsenayasar\Documents\" + user.FirstName + "" + user.LastName;
-            DirectoryInfo di = Directory.CreateDirectory(path);
 
             return user;
         }
