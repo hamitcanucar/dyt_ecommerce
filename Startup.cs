@@ -102,7 +102,6 @@ namespace dytsenayasar
             });
 
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IContentService, ContentService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
             services.AddScoped<IFileManager, FileManager>();
             services.AddScoped<IFileTypeChecker, FileTypeChecker>();

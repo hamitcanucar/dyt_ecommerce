@@ -28,15 +28,13 @@ namespace dytsenayasar.Controllers
         private readonly IFileTypeChecker _fileTypeChecker;
         private readonly FileManagerSettings _fileManagerSettings;
         private readonly AppSettings _appSettings;
-        private readonly IContentService _contentService;
         private readonly IUserService _userService;
 
-        public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IContentService contentService, IUserService userService,
+        public FileController(IFileManager fileManager, IFileTypeChecker fileTypeChecker, IUserService userService,
             ILogger<FileController> logger, IOptions<FileManagerSettings> fileManagerSettings, IOptions<AppSettings> appSettings) : base(logger)
         {
             _fileManager = fileManager;
             _fileTypeChecker = fileTypeChecker;
-            _contentService = contentService;
             _userService = userService;
             _fileManagerSettings = fileManagerSettings.Value;
             _appSettings = appSettings.Value;
