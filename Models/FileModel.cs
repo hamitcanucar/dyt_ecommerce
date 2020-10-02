@@ -6,16 +6,16 @@ using dytsenayasar.DataAccess.Entities;
 
 namespace dytsenayasar.Models
 {
-    public class ContentModel : AEntityModel<Content, ContentModel>
+    public class UserFileModel : AEntityModel<UserFile, UserFileModel>
     {
-        public ContentModel(){}
+        public UserFileModel(){}
 
-        public ContentModel(Content entity)
+        public UserFileModel(UserFile entity)
         {
             SetValuesFromEntity(entity);
         }
 
-        public string Name { get; set; }
+        public string FileName { get; set; }
         public string FileType { get; set; }
         public byte[] DataFiles { get; set; }
         public DateTime? CreatedOn { get; set; }
@@ -24,38 +24,36 @@ namespace dytsenayasar.Models
         public ICollection<int> CategoryIds { get; set; }
         public IDictionary<int, string> Categories { get; set; }
 
-        public override Content ToEntity()
+        public override UserFile ToEntity()
         {
-            var content = new Content
+            var userFile = new UserFile
             {
-                Name = Name,
+                FileName = FileName,
                 FileType = FileType,
                 CreatedOn = CreatedOn ?? DateTime.MaxValue,
-                DataFiles = DataFiles,
             };
 
-            return content;
+            return userFile;
         }
 
-        public override void SetValuesFromEntity(Content entity)
+        public override void SetValuesFromEntity(UserFile entity)
         {
             if (entity == null) return;
 
             base.SetValuesFromEntity(entity);
 
             ID = entity.ID;
-            Name = entity.Name;
+            FileName = entity.FileName;
             FileType = entity.FileType;
             CreatedOn = entity.CreatedOn;
-            DataFiles = entity.DataFiles;
         }
     }
 
-    public static class ContentEntityExtentions
+    public static class UserFileEntityExtentions
     {
-        public static ContentModel ToModel(this Content entity)
+        public static UserFileModel ToModel(this UserFile entity)
         {
-            var model = new ContentModel();
+            var model = new UserFileModel();
             model.SetValuesFromEntity(entity);
             return model;
         }

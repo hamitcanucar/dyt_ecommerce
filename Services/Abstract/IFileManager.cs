@@ -23,7 +23,7 @@ namespace dytsenayasar.Services.Abstract
 
     public interface IFileManager
     {
-        Task<FileManagerResult> WriteFile(Guid userId, IFormFile file);
+        Task<FileManagerResult> WriteFile(Guid userId,string fileName,string fileType, Stream data);
         Task<FileManagerResult> ReadFile(string fileName);
         FileManagerResult OpenFileStream(string fileName);
         Task<FileManagerResult> CreateImage(string imgName);

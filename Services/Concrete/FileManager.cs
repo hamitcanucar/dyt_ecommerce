@@ -106,6 +106,66 @@ namespace dytsenayasar.Services.Concrete
             }
         }
 
+        public Task<FileManagerResult> WriteFile(Guid userId, string fileName,string fileType, Stream data)
+        {
+            return WriteFile(_settings.FilePath, fileName, fileType, _settings.MaxFileSizeInMB, data, userId);
+        }
+
+        public async Task<FileManagerResult> WriteFile(string path, string fileName,string fileType, int maxSizeMB, Stream data, Guid userId)
+        {
+            var result = new FileManagerResult { Name = fileName };
+
+            if (data == null)
+            {
+                result.Status = FileManagerStatus.Completed;
+                return result;
+            }
+
+            if (data.Length / 1048576 > maxSizeMB)
+            {
+                result.Status = FileManagerStatus.TooBigFile;
+                return result;
+            }
+
+            if (data != null && data.Length > 0)
+            {
+                var objfiles = new UserFile()
+                {
+                    FileName = fileName,
+                    FileType = fileType,
+                    CreatedOn = DateTime.Now,
+                    UserId = userId
+                };
+
+                _context.UserFiles.Add(objfiles);
+                _context.SaveChanges();
+
+            }
+
+            try
+            {
+                using (data)
+                {
+                    using (var file = new FileStream(Path.Combine(path, fileName),
+                        FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
+                    {
+                        await data.CopyToAsync(file);
+                    }
+                }
+                result.Status = FileManagerStatus.Completed;
+                return result;
+            }
+            catch (System.Security.SecurityException) { result.Status = FileManagerStatus.PermissionDenied; return result; }
+            catch (FileNotFoundException) { result.Status = FileManagerStatus.FileNotFound; return result; }
+            catch (DirectoryNotFoundException) { result.Status = FileManagerStatus.PathNotFound; return result; }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                result.Status = FileManagerStatus.Failed;
+                return result;
+            }
+        }
+
         public async Task<FileManagerResult> WriteFile(Guid userId, IFormFile file)
         {
             var result = new FileManagerResult { Name = file.Name };
@@ -127,32 +187,27 @@ namespace dytsenayasar.Services.Concrete
                 if (file.Length > 0)
                 {
                     var fileName = Path.GetFileName(file.FileName);
-                    
+
                     var fileExtension = Path.GetExtension(fileName);
-                    
+
                     var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
 
-                    var objfiles = new Content()
+                    var objfiles = new UserFile()
                     {
-                        Name= newFileName,
+                        FileName = newFileName,
                         FileType = fileExtension,
                         CreatedOn = DateTime.Now,
                         UserId = userId,
                     };
-                    
-                    using (var target = new MemoryStream())
-                    {
-                        file.CopyTo(target);
-                        objfiles.DataFiles = target.ToArray();
-                    }
 
-                    await _context.Contents.AddAsync(objfiles);
+                    await _context.UserFiles.AddAsync(objfiles);
                     await _context.SaveChangesAsync();
-                    
+
                     result.Status = FileManagerStatus.Completed;
                 }
-                
+
             }
+
             return result;
         }
 

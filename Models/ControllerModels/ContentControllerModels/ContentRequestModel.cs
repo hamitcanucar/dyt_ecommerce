@@ -6,27 +6,26 @@ using dytsenayasar.DataAccess.Entities;
 
 namespace dytsenayasar.Models.ControllerModels.ContentControllerModels
 {
-    public class ContentRequestModel : AControllerEntityModel<ContentModel>
+    public class UserFileRequestModel : AControllerEntityModel<UserFileModel>
     {
         [Required, MaxLength(128)]
-        public string Name { get; set; }
+        public string FileName { get; set; }
 
         [MaxLength(255)]
         public string FileType { get; set; }
-        public byte[] DataFiles { get; set; }
         public DateTime? CreatedOn { get; set; }
         
         public User User { get; set; }
 
-        public override ContentModel ToModel()
+        public override UserFileModel ToModel()
         {
-            var contentModel = new ContentModel
+            var userFileModel = new UserFileModel
             {
-                Name = Name,
+                FileName = FileName,
                 FileType = FileType,
                 CreatedOn = CreatedOn,
             };
-            return contentModel;
+            return userFileModel;
         }
     }
 }

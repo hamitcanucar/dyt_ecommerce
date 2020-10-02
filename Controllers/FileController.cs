@@ -40,40 +40,27 @@ namespace dytsenayasar.Controllers
             _appSettings = appSettings.Value;
         }
 
-        // [HttpGet]
-        // [Route("{id}")]
-        // [Authorize]
-        // public async Task<IActionResult> GetFile(Guid id)
-        // {
-        //     var fileName = id.ToString();
-        //     var userId = GetUserIdFromToken();
-        //     bool fileIsAvailable;
+        [HttpGet]
+        [Route("{id}")]
+        [Authorize]
+        public IActionResult GetFile(Guid id)
+        {
+            var fileName = id.ToString();
+            var userId = GetUserIdFromToken();
 
-        //     if (User.IsInRole(Role.ADMIN))
-        //     {
-        //         fileIsAvailable = true;
-        //     }
-        //     else
-        //     {
-        //         fileIsAvailable = await _contentService.CheckContentFileAvailableForUser(id, userId);
-        //     }
+            var result = _fileManager.OpenFileStream(fileName);
 
-        //     if (fileIsAvailable)
-        //     {
-        //         var result = _fileManager.OpenFileStream(fileName);
+            if (result.Status == FileManagerStatus.Completed)
+            {
+                return File(result.Stream, MediaTypeNames.Application.Octet);
+            }
 
-        //         if (result.Status == FileManagerStatus.Completed)
-        //         {
-        //             return File(result.Stream, MediaTypeNames.Application.Octet);
-        //         }
-
-        //         if (result.Status != FileManagerStatus.FileNotFound)
-        //         {
-        //             _logger.LogError("File({0}) does not available: {1}", fileName, result.Status.ToString());
-        //         }
-        //     }
-        //     return NoContent();
-        // }
+            if (result.Status != FileManagerStatus.FileNotFound)
+            {
+                _logger.LogError("File({0}) does not available: {1}", fileName, result.Status.ToString());
+            }
+            return NoContent();
+        }
 
         [HttpGet]
         [Route("image/{id}")]
@@ -99,9 +86,9 @@ namespace dytsenayasar.Controllers
         [Route("files")]
         [Authorize]
         [DisableRequestSizeLimit]
-        public async Task<GenericResponse<string>> UploadContentFiles([FromForm] IFormFile file)
+        public async Task<GenericResponse<string>> UploadContentFiles([FromForm] IFormFile files)
         {
-             if ( file == null)
+            if (files == null)
             {
                 return new GenericResponse<string>
                 {
@@ -110,10 +97,22 @@ namespace dytsenayasar.Controllers
                 };
             }
 
+            Stream fileStream = null;
+            Guid? fileId = Guid.NewGuid();
+            var fileName = fileId.Value.ToString();
+
+            var asd = Path.GetFileName(files.FileName);
+            var fileExtension = Path.GetExtension(asd);
+
+            if (files != null)
+            {
+                fileStream = files.OpenReadStream();
+            }
+
             var userId = GetUserIdFromToken();
 
-            var result = await _fileManager.WriteFile(userId, file);
-            
+            var result = await _fileManager.WriteFile(userId, fileName, fileExtension, fileStream);
+
             return new GenericResponse<string> { Success = true };
         }
 
@@ -123,15 +122,6 @@ namespace dytsenayasar.Controllers
         [DisableRequestSizeLimit]
         public async Task<GenericResponse<string>> UploadContentImages([FromForm] IFormFile image)
         {
-            if ( image == null)
-            {
-                return new GenericResponse<string>
-                {
-                    Code = nameof(ErrorMessages.FILE_EMPTY),
-                    Message = ErrorMessages.FILE_EMPTY
-                };
-            }
-
             if (image == null)
             {
                 return new GenericResponse<string>
@@ -141,13 +131,25 @@ namespace dytsenayasar.Controllers
                 };
             }
 
+            Stream imageStream = null;
+            Guid? imageId = Guid.NewGuid();
+            var imageName = imageId.Value.ToString();
+
+            var asd = Path.GetFileName(image.FileName);
+            var imageExtension = Path.GetExtension(asd);
+
+            if (image != null)
+            {
+                imageStream = image.OpenReadStream();
+            }
+
             var userId = GetUserIdFromToken();
 
-            var result = await _fileManager.WriteFile(userId, image);
-            
+            var result = await _fileManager.WriteFile(userId, imageName, imageExtension, imageStream);
+
             return new GenericResponse<string> { Success = true };
         }
-        
+
         [HttpPost]
         [Route("user/image")]
         [Authorize]
@@ -156,7 +158,7 @@ namespace dytsenayasar.Controllers
         {
             return UploadProfileImage(GetUserIdFromToken(), image);
         }
-        
+
         [NonAction]
         private async Task<GenericResponse<string>> UploadProfileImage(Guid userId, IFormFile image)
         {
@@ -195,10 +197,13 @@ namespace dytsenayasar.Controllers
             var stream = image.OpenReadStream();
             if (!await CheckImageType(stream)) return CreateWrongImageError();
 
+            var asd = Path.GetFileName(image.FileName);
+            var fileExtension = Path.GetExtension(asd);
+
             var imgId = Guid.NewGuid();
             var imgName = imgId.ToString();
             var userId = GetUserIdFromToken();
-            var imgResult = await _fileManager.WriteFile(userId, image);
+            var imgResult = await _fileManager.WriteFile(userId, image.FileName, fileExtension, stream);
 
             if (imgResult.Status != FileManagerStatus.Completed)
             {

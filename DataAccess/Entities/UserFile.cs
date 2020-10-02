@@ -6,23 +6,22 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace dytsenayasar.DataAccess.Entities
 {
 
-    public class Content : AEntity
+    public class UserFile : AEntity
     {
-        public string Name { get; set; }
+        public string FileName { get; set; }
         public string FileType { get; set; }
-        public byte[] DataFiles { get; set; }
         public DateTime? CreatedOn { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
     }
 
-    public class ContentEntityConfiguration : EntityConfiguration<Content>
+    public class UserFileEntityConfiguration : EntityConfiguration<UserFile>
     {
-        public ContentEntityConfiguration() : base("content")
+        public UserFileEntityConfiguration() : base("user_file")
         {
         }
 
-        public override void Configure(EntityTypeBuilder<Content> builder)
+        public override void Configure(EntityTypeBuilder<UserFile> builder)
         {
             base.Configure(builder);
 
@@ -30,11 +29,11 @@ namespace dytsenayasar.DataAccess.Entities
                    .HasColumnName("user_id")
                    .IsRequired();
             builder.HasOne(e => e.User)
-                   .WithMany(e => e.Contents)
+                   .WithMany(e => e.UserFiles)
                    .HasForeignKey(e => e.UserId);
 
-            builder.Property(c => c.Name)
-                .HasColumnName("name")
+            builder.Property(c => c.FileName)
+                .HasColumnName("file_name")
                 .HasColumnType("varchar(128)")
                 .IsRequired();
             builder.Property(c => c.FileType)
@@ -42,8 +41,6 @@ namespace dytsenayasar.DataAccess.Entities
                 .HasColumnType("varchar(255)");
             builder.Property(c => c.CreatedOn)
                 .HasColumnName("created_on");
-            builder.Property(c => c.DataFiles)
-                .HasColumnName("data_files");
         }
     }
 }

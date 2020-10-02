@@ -40,7 +40,7 @@ namespace dytsenayasar.DataAccess.Entities
         public UserClient Client { get; set; }
         public UserForm Form { get; set; }
         public ICollection<UserRequest> Requests { get; set; }
-        public ICollection<Content> Contents { get; set; }
+        public ICollection<UserFile> UserFiles { get; set; }
     }
 
     public class UserEntityConfiguration : EntityConfiguration<User>
