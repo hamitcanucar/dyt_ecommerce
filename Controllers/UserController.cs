@@ -166,6 +166,55 @@ namespace dytsenayasar.Controllers
         }
 
         [HttpGet]
+        [Route("getUserForm")]
+        [Authorize]
+        public async Task<UserFormModel> GetUserForm()
+        {
+            var userId = GetUserIdFromToken();
+
+            var result = await _userService.GetUserForm(userId);
+
+            return result.ToModel();
+        }
+
+        [HttpPost]  
+        [Route("scale")]
+        [Authorize]
+        public async Task<GenericResponse<UserScaleModel>> UserScale([FromBody] UserScaleRequestModel model)
+        {
+            var userId = GetUserIdFromToken();
+            var userScale = model.ToModel();
+            var result = await _userService.UserScale(userScale, userId);
+
+            if (result == null)
+            {
+                return new GenericResponse<UserScaleModel>
+                {
+                    Code = nameof(ErrorMessages.DUPLICATED_CRIDENTIAL),
+                    Message = ErrorMessages.DUPLICATED_CRIDENTIAL
+                };
+            }
+
+            return new GenericResponse<UserScaleModel>
+            {
+                Success = true,
+                Data = result.ToModel()
+            };
+        }
+
+        [HttpGet]
+        [Route("getUserScale")]
+        [Authorize]
+        public async Task<IEnumerable<UserScaleModel>> GetUserScale()
+        {
+            var userId = GetUserIdFromToken();
+
+            var result = await _userService.GetUserScales(userId);
+
+            return result.Select(u => u.ToModel());
+        }
+
+        [HttpGet]
         [Route("{id}")]
         [Authorize]
         public async Task<UserModel> GetUser(Guid id)

@@ -93,6 +93,34 @@ namespace dytsenayasar.Services.Concrete
             return userForm;
         }
 
+        
+        public async Task<UserForm> GetUserForm(Guid userId)
+        {
+            var query = from u in _context.UserForms
+                        where u.UserId == userId
+                        select u;
+
+            return await query.AsNoTracking().FirstOrDefaultAsync();
+        }
+
+        public async Task<UserScale> UserScale(UserScale userScale, Guid id)
+        {
+            userScale.UserId = id;
+
+            _context.Add(userScale);
+            await _context.SaveChangesAsync();
+            return userScale;
+        }
+
+        public async Task<ICollection<UserScale>> GetUserScales(Guid userId)
+        {
+            var query = from u in _context.UserScales
+                        where u.UserId == userId
+                        select u;
+
+            return await query.AsNoTracking().ToListAsync();
+        }
+
         public async Task<User> Get(Guid id)
         {
             var query = from u in _context.Users
@@ -279,17 +307,6 @@ namespace dytsenayasar.Services.Concrete
                 .Select(x => x.ClientId)
                 .AsNoTracking()
                 .ToListAsync();
-        }
-
-        public IQueryable<UserMembershipModel> CreateUserMembershipTableQuery()
-        {
-            return 
-                   from u in _context.Users
-                   select new UserMembershipModel
-                   {
-                       UserId = u.ID,
-                       User = u
-                   };
         }
     }
 }

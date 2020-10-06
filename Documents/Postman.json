@@ -1,0 +1,1872 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Dyt Api",
+      "version": "v1"
+    },
+    "paths": {
+      "/file/{id}": {
+        "get": {
+          "tags": [
+            "File"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/file/image/{id}": {
+        "get": {
+          "tags": [
+            "File"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/file/files": {
+        "post": {
+          "tags": [
+            "File"
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ContentType": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "ContentDisposition": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "Headers": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "Length": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "Name": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "FileName": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                },
+                "encoding": {
+                  "ContentType": {
+                    "style": "form"
+                  },
+                  "ContentDisposition": {
+                    "style": "form"
+                  },
+                  "Headers": {
+                    "style": "form"
+                  },
+                  "Length": {
+                    "style": "form"
+                  },
+                  "Name": {
+                    "style": "form"
+                  },
+                  "FileName": {
+                    "style": "form"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/file/images": {
+        "post": {
+          "tags": [
+            "File"
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ContentType": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "ContentDisposition": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "Headers": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "Length": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "Name": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "FileName": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                },
+                "encoding": {
+                  "ContentType": {
+                    "style": "form"
+                  },
+                  "ContentDisposition": {
+                    "style": "form"
+                  },
+                  "Headers": {
+                    "style": "form"
+                  },
+                  "Length": {
+                    "style": "form"
+                  },
+                  "Name": {
+                    "style": "form"
+                  },
+                  "FileName": {
+                    "style": "form"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/file/user/image": {
+        "post": {
+          "tags": [
+            "File"
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ContentType": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "ContentDisposition": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "Headers": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "Length": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "Name": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "FileName": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                },
+                "encoding": {
+                  "ContentType": {
+                    "style": "form"
+                  },
+                  "ContentDisposition": {
+                    "style": "form"
+                  },
+                  "Headers": {
+                    "style": "form"
+                  },
+                  "Length": {
+                    "style": "form"
+                  },
+                  "Name": {
+                    "style": "form"
+                  },
+                  "FileName": {
+                    "style": "form"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/pages/resetPassword": {
+        "post": {
+          "tags": [
+            "Pages"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            {
+              "name": "token",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "nullable": true
+              }
+            },
+            {
+              "name": "NewPassword",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "maxLength": 128,
+                "minLength": 4,
+                "type": "string"
+              }
+            },
+            {
+              "name": "ConfirmPassword",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/pages/activateAccount": {
+        "post": {
+          "tags": [
+            "Pages"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            {
+              "name": "token",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/user/forgot": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "parameters": [
+            {
+              "name": "q",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/register": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json-patch+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterRequestModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterRequestModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterRequestModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterRequestModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/login": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json-patch+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequestModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequestModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequestModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequestModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/form": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json-patch+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserFormRequestModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserFormRequestModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserFormRequestModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserFormRequestModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserFormModelGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserFormModelGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserFormModelGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/getUserForm": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserFormModel"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserFormModel"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserFormModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/scale": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json-patch+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserScaleRequestModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserScaleRequestModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserScaleRequestModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserScaleRequestModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserScaleModelGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserScaleModelGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserScaleModelGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/getUserScale": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserScaleModel"
+                    }
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserScaleModel"
+                    }
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserScaleModel"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/{id}": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "parameters": [
+            {
+              "name": "q",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserModel"
+                    }
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserModel"
+                    }
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserModel"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json-patch+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserRequestModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserRequestModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserRequestModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserRequestModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModelGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/find": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 20
+              }
+            },
+            {
+              "name": "offset",
+              "in": "query",
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "default": 0
+              }
+            },
+            {
+              "name": "searchValue",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "nullable": true
+              }
+            },
+            {
+              "name": "phone",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "nullable": true
+              }
+            },
+            {
+              "name": "age",
+              "in": "query",
+              "schema": {
+                "type": "integer",
+                "format": "int32",
+                "nullable": true
+              }
+            },
+            {
+              "name": "gender",
+              "in": "query",
+              "schema": {
+                "$ref": "#/components/schemas/GenderType"
+              }
+            },
+            {
+              "name": "userType",
+              "in": "query",
+              "schema": {
+                "$ref": "#/components/schemas/UserType"
+              }
+            },
+            {
+              "name": "getCount",
+              "in": "query",
+              "schema": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserModel"
+                    }
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserModel"
+                    }
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserModel"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/password": {
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json-patch+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePasswordRequestModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePasswordRequestModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePasswordRequestModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePasswordRequestModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/client": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json-patch+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveClientIdRequestModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveClientIdRequestModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveClientIdRequestModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveClientIdRequestModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/StringGenericResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "StringGenericResponse": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "code": {
+              "type": "string",
+              "nullable": true
+            },
+            "message": {
+              "type": "string",
+              "nullable": true
+            },
+            "data": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "GenderType": {
+          "enum": [
+            0,
+            1
+          ],
+          "type": "integer",
+          "format": "int32"
+        },
+        "RegisterRequestModel": {
+          "required": [
+            "email",
+            "password",
+            "personalId"
+          ],
+          "type": "object",
+          "properties": {
+            "personalId": {
+              "maxLength": 11,
+              "minLength": 11,
+              "type": "string"
+            },
+            "email": {
+              "maxLength": 64,
+              "type": "string",
+              "format": "email"
+            },
+            "password": {
+              "maxLength": 128,
+              "minLength": 4,
+              "type": "string"
+            },
+            "firstName": {
+              "maxLength": 64,
+              "type": "string",
+              "nullable": true
+            },
+            "lastName": {
+              "maxLength": 64,
+              "type": "string",
+              "nullable": true
+            },
+            "birthDay": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "phone": {
+              "maxLength": 32,
+              "type": "string",
+              "nullable": true
+            },
+            "gender": {
+              "$ref": "#/components/schemas/GenderType"
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserType": {
+          "enum": [
+            0,
+            1
+          ],
+          "type": "integer",
+          "format": "int32"
+        },
+        "UserModel": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "personalId": {
+              "type": "string",
+              "nullable": true
+            },
+            "email": {
+              "type": "string",
+              "nullable": true
+            },
+            "firstName": {
+              "type": "string",
+              "nullable": true
+            },
+            "lastName": {
+              "type": "string",
+              "nullable": true
+            },
+            "birthDay": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "phone": {
+              "type": "string",
+              "nullable": true
+            },
+            "gender": {
+              "$ref": "#/components/schemas/GenderType"
+            },
+            "userType": {
+              "$ref": "#/components/schemas/UserType"
+            },
+            "active": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "token": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserModelGenericResponse": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "code": {
+              "type": "string",
+              "nullable": true
+            },
+            "message": {
+              "type": "string",
+              "nullable": true
+            },
+            "data": {
+              "$ref": "#/components/schemas/UserModel"
+            }
+          },
+          "additionalProperties": false
+        },
+        "LoginRequestModel": {
+          "required": [
+            "password",
+            "piDorEmail"
+          ],
+          "type": "object",
+          "properties": {
+            "piDorEmail": {
+              "maxLength": 128,
+              "minLength": 4,
+              "type": "string"
+            },
+            "password": {
+              "maxLength": 128,
+              "minLength": 4,
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "DietTypes": {
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18
+          ],
+          "type": "integer",
+          "format": "int32"
+        },
+        "UserFormRequestModel": {
+          "type": "object",
+          "properties": {
+            "dietType": {
+              "$ref": "#/components/schemas/DietTypes"
+            },
+            "job": {
+              "type": "string",
+              "nullable": true
+            },
+            "phone2": {
+              "type": "string",
+              "nullable": true
+            },
+            "callTimes": {
+              "type": "string",
+              "nullable": true
+            },
+            "references": {
+              "type": "string",
+              "nullable": true
+            },
+            "wakeUpTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "breakfastTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "lunchTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "dinnerTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "sleepTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "breakfastFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "lunchFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "dinnerFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "foodsUntilSleep": {
+              "type": "string",
+              "nullable": true
+            },
+            "sleepPatterns": {
+              "type": "string",
+              "nullable": true
+            },
+            "drugs": {
+              "type": "string",
+              "nullable": true
+            },
+            "sports": {
+              "type": "string",
+              "nullable": true
+            },
+            "badHabits": {
+              "type": "string",
+              "nullable": true
+            },
+            "toiletFrequency": {
+              "type": "string",
+              "nullable": true
+            },
+            "allergyFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "bestFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteBreakfastFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteVegetablesFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteMeatFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteFruits": {
+              "type": "string",
+              "nullable": true
+            },
+            "oralDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "cardiovascularDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "stomachAndIntestineDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "thyroidDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "anemia": {
+              "type": "string",
+              "nullable": true
+            },
+            "urinaryInfection": {
+              "type": "string",
+              "nullable": true
+            },
+            "lungInfection": {
+              "type": "string",
+              "nullable": true
+            },
+            "continuousDrugs": {
+              "type": "string",
+              "nullable": true
+            },
+            "diabetes": {
+              "type": "string",
+              "nullable": true
+            },
+            "hospital": {
+              "type": "string",
+              "nullable": true
+            },
+            "operation": {
+              "type": "string",
+              "nullable": true
+            },
+            "isRegl": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "isOrderRegl": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "parturition": {
+              "type": "string",
+              "nullable": true
+            },
+            "breastfeed": {
+              "type": "string",
+              "nullable": true
+            },
+            "weight": {
+              "type": "number",
+              "format": "float"
+            },
+            "length": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "chest": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "waist": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "maxWeight": {
+              "type": "number",
+              "format": "float"
+            },
+            "minWeight": {
+              "type": "number",
+              "format": "float"
+            },
+            "methods": {
+              "type": "string",
+              "nullable": true
+            },
+            "family": {
+              "type": "string",
+              "nullable": true
+            },
+            "noteToDietitian": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserFormModel": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "dietType": {
+              "$ref": "#/components/schemas/DietTypes"
+            },
+            "job": {
+              "type": "string",
+              "nullable": true
+            },
+            "phone2": {
+              "type": "string",
+              "nullable": true
+            },
+            "callTimes": {
+              "type": "string",
+              "nullable": true
+            },
+            "references": {
+              "type": "string",
+              "nullable": true
+            },
+            "wakeUpTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "breakfastTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "lunchTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "dinnerTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "sleepTime": {
+              "type": "string",
+              "nullable": true
+            },
+            "breakfastFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "lunchFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "dinnerFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "foodsUntilSleep": {
+              "type": "string",
+              "nullable": true
+            },
+            "sleepPatterns": {
+              "type": "string",
+              "nullable": true
+            },
+            "drugs": {
+              "type": "string",
+              "nullable": true
+            },
+            "sports": {
+              "type": "string",
+              "nullable": true
+            },
+            "badHabits": {
+              "type": "string",
+              "nullable": true
+            },
+            "toiletFrequency": {
+              "type": "string",
+              "nullable": true
+            },
+            "allergyFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "bestFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteBreakfastFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteVegetablesFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteMeatFoods": {
+              "type": "string",
+              "nullable": true
+            },
+            "favoriteFruits": {
+              "type": "string",
+              "nullable": true
+            },
+            "oralDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "cardiovascularDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "stomachAndIntestineDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "thyroidDiseases": {
+              "type": "string",
+              "nullable": true
+            },
+            "anemia": {
+              "type": "string",
+              "nullable": true
+            },
+            "urinaryInfection": {
+              "type": "string",
+              "nullable": true
+            },
+            "lungInfection": {
+              "type": "string",
+              "nullable": true
+            },
+            "continuousDrugs": {
+              "type": "string",
+              "nullable": true
+            },
+            "diabetes": {
+              "type": "string",
+              "nullable": true
+            },
+            "hospital": {
+              "type": "string",
+              "nullable": true
+            },
+            "operation": {
+              "type": "string",
+              "nullable": true
+            },
+            "isRegl": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "isOrderRegl": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "parturition": {
+              "type": "string",
+              "nullable": true
+            },
+            "breastfeed": {
+              "type": "string",
+              "nullable": true
+            },
+            "weight": {
+              "type": "number",
+              "format": "float"
+            },
+            "length": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "chest": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "waist": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "maxWeight": {
+              "type": "number",
+              "format": "float"
+            },
+            "minWeight": {
+              "type": "number",
+              "format": "float"
+            },
+            "methods": {
+              "type": "string",
+              "nullable": true
+            },
+            "family": {
+              "type": "string",
+              "nullable": true
+            },
+            "noteToDietitian": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserFormModelGenericResponse": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "code": {
+              "type": "string",
+              "nullable": true
+            },
+            "message": {
+              "type": "string",
+              "nullable": true
+            },
+            "data": {
+              "$ref": "#/components/schemas/UserFormModel"
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserScaleRequestModel": {
+          "type": "object",
+          "properties": {
+            "weigt": {
+              "type": "number",
+              "format": "float"
+            },
+            "cheest": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "waist": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "upperArm": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "hip": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "leg": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserScaleModel": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "weigt": {
+              "type": "number",
+              "format": "float"
+            },
+            "cheest": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "waist": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "upperArm": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "hip": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "leg": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "UserScaleModelGenericResponse": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "code": {
+              "type": "string",
+              "nullable": true
+            },
+            "message": {
+              "type": "string",
+              "nullable": true
+            },
+            "data": {
+              "$ref": "#/components/schemas/UserScaleModel"
+            }
+          },
+          "additionalProperties": false
+        },
+        "UpdateUserRequestModel": {
+          "type": "object",
+          "properties": {
+            "personalId": {
+              "maxLength": 11,
+              "minLength": 11,
+              "type": "string",
+              "nullable": true
+            },
+            "email": {
+              "maxLength": 64,
+              "type": "string",
+              "format": "email",
+              "nullable": true
+            },
+            "password": {
+              "maxLength": 128,
+              "minLength": 4,
+              "type": "string",
+              "nullable": true
+            },
+            "firstName": {
+              "maxLength": 64,
+              "type": "string",
+              "nullable": true
+            },
+            "lastName": {
+              "maxLength": 64,
+              "type": "string",
+              "nullable": true
+            },
+            "birthDay": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "phone": {
+              "maxLength": 32,
+              "type": "string",
+              "nullable": true
+            },
+            "gender": {
+              "$ref": "#/components/schemas/GenderType"
+            },
+            "userType": {
+              "$ref": "#/components/schemas/UserType"
+            },
+            "active": {
+              "type": "boolean",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "UpdatePasswordRequestModel": {
+          "required": [
+            "newPassword",
+            "oldPassword"
+          ],
+          "type": "object",
+          "properties": {
+            "oldPassword": {
+              "maxLength": 128,
+              "minLength": 4,
+              "type": "string"
+            },
+            "newPassword": {
+              "maxLength": 128,
+              "minLength": 4,
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "SaveClientIdRequestModel": {
+          "required": [
+            "clientId"
+          ],
+          "type": "object",
+          "properties": {
+            "clientId": {
+              "maxLength": 255,
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  }

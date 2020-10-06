@@ -15,6 +15,7 @@ namespace dytsenayasar.Context
         public DbSet<UserRequest> UserRequests { get; set; }
         public DbSet<UserClient> UserClients { get; set; }
         public DbSet<UserForm> UserForms { get; set; }
+        public DbSet<UserScale> UserScales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

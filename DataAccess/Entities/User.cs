@@ -41,6 +41,7 @@ namespace dytsenayasar.DataAccess.Entities
         public UserForm Form { get; set; }
         public ICollection<UserRequest> Requests { get; set; }
         public ICollection<UserFile> UserFiles { get; set; }
+        public ICollection<UserScale> UserScales { get; set; }
     }
 
     public class UserEntityConfiguration : EntityConfiguration<User>

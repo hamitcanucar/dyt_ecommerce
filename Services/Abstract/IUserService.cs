@@ -16,6 +16,9 @@ namespace dytsenayasar.Services.Abstract
         Task<ICollection<User>> Get(ICollection<Guid> ids);
         Task<User> Update(Guid id, UserModel user, string password = null);
         Task<UserForm> UserForm(UserForm userForm, Guid id);
+        Task<UserForm> GetUserForm(Guid id);
+        Task<UserScale> UserScale(UserScale userScale, Guid id);
+        Task<ICollection<UserScale>> GetUserScales(Guid userId);
         Task<bool> ActivateUser(User user);
         Task<bool> UpdatePassword(User user, string password);
         Task<Guid?> UpdateImage(Guid id, Guid imgId);
@@ -24,7 +27,6 @@ namespace dytsenayasar.Services.Abstract
         Task<long> FindCount(UserFindParametersModel parameters);
         Task<bool> SaveClientId(Guid userId, string clientId);
         Task<ICollection<string>> GetClientIds(ICollection<Guid> userIds);
-        IQueryable<UserMembershipModel> CreateUserMembershipTableQuery();
         
     }
 }
