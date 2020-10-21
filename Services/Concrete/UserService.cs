@@ -28,12 +28,12 @@ namespace dytsenayasar.Services.Concrete
             _configuration = configuration;
         }
 
-        public async Task<UserModel> Login(string pidOrEmail, string password)
+        public async Task<UserModel> Login(string email, string password)
         {
             var hashedPass = password.HashToSha256();
 
             var query = from u in _context.Users
-                        where (u.PersonalId == pidOrEmail || u.Email == pidOrEmail) && u.Password == hashedPass
+                        where (u.Email == email) && u.Password == hashedPass
                         select u;
 
             var user = await query.AsNoTracking().FirstOrDefaultAsync();
@@ -43,24 +43,22 @@ namespace dytsenayasar.Services.Concrete
 
             var result = user.ToModel();
 
-            if (user.Active)
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.UTF8.GetBytes(_configuration["JwtKey"]);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_configuration["JwtKey"]);
 
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]{
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]{
                         new Claim(JWTUser.ID, result.ID.ToString()),
                         new Claim(ClaimTypes.Role, result.UserType.ToString()),
                     }),
-                    Issuer = "false", //_appSettings.Issuer,
-                    Expires = DateTime.UtcNow.AddHours(1), //DateTime.UtcNow.AddMinutes(_appSettings.JwtValidityInMinutes),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                result.Token = tokenHandler.WriteToken(token);
-            }
+                Issuer = "false", //_appSettings.Issuer,
+                Expires = DateTime.UtcNow.AddHours(1), //DateTime.UtcNow.AddMinutes(_appSettings.JwtValidityInMinutes),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            result.Token = tokenHandler.WriteToken(token);
+
 
             return result;
         }
@@ -68,7 +66,7 @@ namespace dytsenayasar.Services.Concrete
         public async Task<User> Register(User user)
         {
             //check unique columns
-            var result = await _context.Users.AnyAsync(u => u.PersonalId == user.PersonalId || u.Email == user.Email);
+            var result = await _context.Users.AnyAsync(u => u.Email == user.Email);
 
             if (result)
             {
@@ -93,7 +91,7 @@ namespace dytsenayasar.Services.Concrete
             return userForm;
         }
 
-        
+
         public async Task<UserForm> GetUserForm(Guid userId)
         {
             var query = from u in _context.UserForms
@@ -130,10 +128,10 @@ namespace dytsenayasar.Services.Concrete
             return await query.AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task<User> Get(string pidOrEmail)
+        public async Task<User> Get(string email)
         {
             var query = from u in _context.Users
-                        where u.PersonalId == pidOrEmail || u.Email == pidOrEmail
+                        where u.Email == email
                         select u;
 
             return await query.AsNoTracking().FirstOrDefaultAsync();
@@ -164,33 +162,20 @@ namespace dytsenayasar.Services.Concrete
         public IQueryable<User> CreateUserFindQuery(UserFindParametersModel parameters)
         {
             var query = from u in _context.Users
-                select new {
-                    User = u
-                };
+                        select new
+                        {
+                            User = u
+                        };
 
-            if (parameters.Gender.HasValue)
-            {
-                query = query.Where(x => x.User.Gender == parameters.Gender.Value);
-            }
             if (parameters.UserType.HasValue)
             {
                 query = query.Where(x => x.User.UserType == parameters.UserType.Value);
-            }
-            if (parameters.BirthDate.HasValue)
-            {
-                query = query.Where(x => x.User.BirthDay >= parameters.BirthDate.Value);
-            }
-            
-            if (!String.IsNullOrEmpty(parameters.Phone))
-            {
-                query = query.Where(x => EF.Functions.Like(x.User.Phone, $"%{parameters.Phone}%"));
             }
             if (!String.IsNullOrEmpty(parameters.SearchValue))
             {
                 var pattern = $"%{parameters.SearchValue.ToLower()}%";
                 query = query.Where(x =>
-                    EF.Functions.Like(x.User.PersonalId.ToLower(), pattern)
-                    || EF.Functions.Like(x.User.Email.ToLower(), pattern)
+                       EF.Functions.Like(x.User.Email.ToLower(), pattern)
                     || EF.Functions.Like(x.User.FirstName.ToLower() + " " + x.User.LastName.ToLower(), pattern)
                 );
             }
@@ -212,38 +197,21 @@ namespace dytsenayasar.Services.Concrete
             return result;
         }
 
-        public async Task<Guid?> UpdateImage(Guid id, Guid imgId)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.ID == id);
-            if (user == null) return Guid.Empty;
-
-            var oldImgId = user.Image;
-            user.Image = imgId;
-            await _context.SaveChangesAsync();
-            return oldImgId;
-        }
-
         private async Task<User> SetUpdateValues(User user, UserModel model, string password = null)
         {
-            if ((!String.IsNullOrEmpty(model.PersonalId)) || !String.IsNullOrEmpty(model.Email))
+            if (!String.IsNullOrEmpty(model.Email))
             {
                 //check unique columns
                 var query = from u in _context.Users
-                            where u.PersonalId == model.PersonalId || u.Email == model.Email
+                            where u.Email == model.Email
                             select new
                             {
-                                u.PersonalId,
                                 u.Email
                             };
                 var conflicts = await query.AsNoTracking().ToListAsync();
 
                 foreach (var c in conflicts)
                 {
-                    if (c.PersonalId == model.PersonalId && user.PersonalId != model.PersonalId)
-                    {
-                        return null;
-                    }
-
                     if (c.Email == model.Email && user.Email != model.Email)
                     {
                         return null;
@@ -251,14 +219,10 @@ namespace dytsenayasar.Services.Concrete
                 }
             }
 
-            user.PersonalId = (String.IsNullOrEmpty(model.PersonalId)) ? user.PersonalId : model.PersonalId;
             user.Email = (String.IsNullOrEmpty(model.Email)) ? user.Email : model.Email;
             user.Password = (String.IsNullOrEmpty(password)) ? user.Password : password.HashToSha256();
             user.FirstName = (String.IsNullOrEmpty(model.FirstName)) ? user.FirstName : model.FirstName;
             user.LastName = (String.IsNullOrEmpty(model.LastName)) ? user.LastName : model.LastName;
-            user.BirthDay = model.BirthDay ?? user.BirthDay;
-            user.Phone = (String.IsNullOrEmpty(model.Phone)) ? user.Phone : model.Phone;
-            user.Gender = model.Gender ?? user.Gender;
 
             return user;
         }
@@ -267,14 +231,6 @@ namespace dytsenayasar.Services.Concrete
         {
             _context.Users.Attach(user);
             user.Password = password.HashToSha256();
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<bool> ActivateUser(User user)
-        {
-            _context.Users.Attach(user);
-            user.Active = true;
             var result = await _context.SaveChangesAsync();
             return result > 0;
         }

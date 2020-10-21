@@ -150,40 +150,6 @@ namespace dytsenayasar.Controllers
             return new GenericResponse<string> { Success = true };
         }
 
-        [HttpPost]
-        [Route("user/image")]
-        [Authorize]
-        [DisableRequestSizeLimit]
-        public Task<GenericResponse<string>> UploadProfileImage([FromForm] IFormFile image)
-        {
-            return UploadProfileImage(GetUserIdFromToken(), image);
-        }
-
-        [NonAction]
-        private async Task<GenericResponse<string>> UploadProfileImage(Guid userId, IFormFile image)
-        {
-            var result = await UploadImage(image);
-            if (!result.Success) return result;
-
-            var oldImg = await _userService.UpdateImage(userId, new Guid(result.Data));
-
-            if (oldImg == Guid.Empty)
-            {
-                _ = _fileManager.DeleteImage(result.Data);
-                return new GenericResponse<string>
-                {
-                    Code = nameof(ErrorMessages.USER_NOT_FOUND),
-                    Message = ErrorMessages.USER_NOT_FOUND
-                };
-            }
-            else
-            {
-                DeleteOldImage(oldImg);
-            }
-
-            return new GenericResponse<string> { Success = true };
-        }
-
         [NonAction]
         private async Task<GenericResponse<string>> UploadImage(IFormFile image)
         {

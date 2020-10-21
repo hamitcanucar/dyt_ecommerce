@@ -24,20 +24,14 @@ namespace dytsenayasar.DataAccess.Entities
 
     public class User : AEntity
     {
-        public string PersonalId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDay { get; set; }
-        public string City { get; set; }
-        public string Phone { get; set; }
-        public GenderType Gender { get; set; }
-        public bool Active { get; set; }
         public UserType UserType { get; set; }
-        public Guid? Image { get; set; }
 
         public UserClient Client { get; set; }
+        public UserInformation Information { get; set; }
         public UserForm Form { get; set; }
         public ICollection<UserRequest> Requests { get; set; }
         public ICollection<UserFile> UserFiles { get; set; }
@@ -54,17 +48,10 @@ namespace dytsenayasar.DataAccess.Entities
         {
             base.Configure(builder);
 
-            builder.HasIndex(u => u.PersonalId).IsUnique();
             builder.HasIndex(u => u.Email).IsUnique();
             builder.HasIndex(u => u.UserType)
                 .HasMethod("hash");
-            builder.HasIndex(u => u.Gender)
-                .HasMethod("hash");
-
-            builder.Property(u => u.PersonalId)
-                .HasColumnName("personal_id")
-                .HasColumnType("varchar(64)")
-                .IsRequired();
+            
             builder.Property(u => u.Email)
                 .HasColumnName("email")
                 .HasColumnType("varchar(64)")
@@ -79,15 +66,7 @@ namespace dytsenayasar.DataAccess.Entities
             builder.Property(u => u.LastName)
                 .HasColumnName("last_name")
                 .HasColumnType("varchar(64)");
-            builder.Property(u => u.BirthDay)
-                .HasColumnName("birth_day");
-            builder.Property(u => u.Phone)
-                .HasColumnName("phone")
-                .HasColumnType("varchar(32)");
-            builder.Property(u => u.Active)
-                .HasColumnName("active");
-            builder.Property(u => u.Image)
-                .HasColumnName("image");
+            
 
             builder.Property(u => u.UserType)
                 .HasColumnName("user_type")
@@ -98,14 +77,7 @@ namespace dytsenayasar.DataAccess.Entities
                     ut => (UserType)Enum.Parse(typeof(UserType), ut)
                 );
 
-            builder.Property(u => u.Gender)
-                .HasColumnName("gender")
-                .HasColumnType("varchar(16)")
-                .HasDefaultValue(GenderType.Male)
-                .HasConversion(
-                    g => g.ToString(),
-                    g => (GenderType)Enum.Parse(typeof(GenderType), g)
-                );
+            
         }
     }
 }

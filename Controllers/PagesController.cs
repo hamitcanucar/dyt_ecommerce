@@ -100,43 +100,5 @@ namespace dytsenayasar.Controllers
 
             return View();
         }
-
-        [Route("activateAccount")]
-        [HttpPost]
-        public async Task<IActionResult> ActivateAccount([FromQuery(Name = "id")] Guid requestId, [FromQuery(Name = "token")] string token)
-        {
-            var ur = await _userRequestService.GetRequest(requestId, token, UserRequestType.ActivateAccount);
-
-            if (ur != null)
-            {
-                if (ur.ValidityDate < DateTime.UtcNow)
-                {
-                    await _userRequestService.DeleteRequest(ur);
-                    ViewData["message"] = _localizer["activate_account_req_expired"];
-                }
-                else
-                {
-                    var result = await _userService.ActivateUser(ur.User);
-                    ViewData["success"] = result;
-
-                    if(result)
-                    {
-                        await _userRequestService.DeleteRequest(ur);
-                        ViewData["message"] = _localizer["activate_account_success"];
-                    }
-                    else
-                    {
-                        ViewData["message"] = _localizer["activate_account_failure"];
-                    }
-                }
-            }
-            else
-            {
-                ViewData["success"] = false;
-                ViewData["message"] = _localizer["activate_account_req_nf"];
-            }
-
-            return View();
-        }
     }
 }

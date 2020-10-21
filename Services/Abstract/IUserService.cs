@@ -19,9 +19,7 @@ namespace dytsenayasar.Services.Abstract
         Task<UserForm> GetUserForm(Guid id);
         Task<UserScale> UserScale(UserScale userScale, Guid id);
         Task<ICollection<UserScale>> GetUserScales(Guid userId);
-        Task<bool> ActivateUser(User user);
         Task<bool> UpdatePassword(User user, string password);
-        Task<Guid?> UpdateImage(Guid id, Guid imgId);
         Task<User> UpdatePassword(Guid id, string oldPassword, string newPassword);
         Task<ICollection<User>> Find(UserFindParametersModel parameters, int limit = 20, int offset = 0);
         Task<long> FindCount(UserFindParametersModel parameters);

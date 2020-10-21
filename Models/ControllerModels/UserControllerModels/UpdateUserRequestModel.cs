@@ -35,15 +35,10 @@ namespace dytsenayasar.Models.ControllerModels.UserControllerModels
         {
             return new UserModel
             {
-                PersonalId = PersonalId,
                 Email = Email,
                 FirstName = FirstName,
                 LastName = LastName,
-                Phone = Phone,
-                BirthDay = BirthDay,
-                Gender = Gender,
-                UserType = UserType,
-                Active = Active
+                UserType = UserType
             };
         }
     }

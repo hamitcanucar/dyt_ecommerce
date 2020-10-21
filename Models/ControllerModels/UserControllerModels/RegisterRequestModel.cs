@@ -6,9 +6,6 @@ namespace dytsenayasar.Models.ControllerModels.UserControllerModels
 {
     public class RegisterRequestModel : AControllerEntityModel<User>
     {
-        [Required, MinLength(11), MaxLength(11)]
-        public string PersonalId { get; set; }
-
         [EmailAddress, Required, MaxLength(64)]
         public string Email { get; set; }
 
@@ -21,25 +18,14 @@ namespace dytsenayasar.Models.ControllerModels.UserControllerModels
         [MaxLength(64)]
         public string LastName { get; set; }
 
-        public DateTime? BirthDay { get; set; }
-
-        [MaxLength(32)]
-        public string Phone { get; set; }
-
-        public GenderType? Gender { get; set; }
-
         public override User ToModel()
         {
             return new User
             {
-                PersonalId = PersonalId,
                 Email = Email,
                 Password = Password,
                 FirstName = FirstName,
                 LastName = LastName,
-                Phone = Phone,
-                BirthDay = BirthDay ?? default(DateTime),
-                Gender = Gender ?? GenderType.Male,
             };
         }
     }

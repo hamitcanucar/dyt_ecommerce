@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using dytsenayasar.Context;
@@ -9,9 +10,10 @@ using dytsenayasar.Context;
 namespace dytsenayasar.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201020210249_init_14")]
+    partial class init_14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +30,13 @@ namespace dytsenayasar.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
+                    b.Property<DateTime>("BirthDay")
+                        .HasColumnName("birth_day")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("create_time")
@@ -43,6 +52,13 @@ namespace dytsenayasar.Migrations
                         .HasColumnName("first_name")
                         .HasColumnType("varchar(64)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("gender")
+                        .HasColumnType("varchar(16)")
+                        .HasDefaultValue("Male");
+
                     b.Property<string>("LastName")
                         .HasColumnName("last_name")
                         .HasColumnType("varchar(64)");
@@ -51,6 +67,15 @@ namespace dytsenayasar.Migrations
                         .IsRequired()
                         .HasColumnName("password")
                         .HasColumnType("varchar(128)");
+
+                    b.Property<string>("PersonalId")
+                        .IsRequired()
+                        .HasColumnName("personal_id")
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnName("phone")
+                        .HasColumnType("varchar(32)");
 
                     b.Property<string>("UserType")
                         .IsRequired()
@@ -62,6 +87,12 @@ namespace dytsenayasar.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Gender")
+                        .HasAnnotation("Npgsql:IndexMethod", "hash");
+
+                    b.HasIndex("PersonalId")
                         .IsUnique();
 
                     b.HasIndex("UserType")
@@ -317,57 +348,6 @@ namespace dytsenayasar.Migrations
                     b.ToTable("user_form");
                 });
 
-            modelBuilder.Entity("dytsenayasar.DataAccess.Entities.UserInformation", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<DateTime>("BirthDay")
-                        .HasColumnName("birth_day")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("City")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("create_time")
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("gender")
-                        .HasColumnType("varchar(16)")
-                        .HasDefaultValue("Male");
-
-                    b.Property<string>("PersonalId")
-                        .IsRequired()
-                        .HasColumnName("personal_id")
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnName("phone")
-                        .HasColumnType("varchar(32)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Gender")
-                        .HasAnnotation("Npgsql:IndexMethod", "hash");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("user_information");
-                });
-
             modelBuilder.Entity("dytsenayasar.DataAccess.Entities.UserRequest", b =>
                 {
                     b.Property<Guid>("ID")
@@ -482,15 +462,6 @@ namespace dytsenayasar.Migrations
                     b.HasOne("dytsenayasar.DataAccess.Entities.User", "User")
                         .WithOne("Form")
                         .HasForeignKey("dytsenayasar.DataAccess.Entities.UserForm", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("dytsenayasar.DataAccess.Entities.UserInformation", b =>
-                {
-                    b.HasOne("dytsenayasar.DataAccess.Entities.User", "User")
-                        .WithOne("Information")
-                        .HasForeignKey("dytsenayasar.DataAccess.Entities.UserInformation", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
